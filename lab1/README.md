@@ -2,7 +2,7 @@
 
 ## Lab 1
 
-###Exercise 1
+### Exercise 1
 
 + Google map widget
 + KTH, reasonable zoom
@@ -12,7 +12,7 @@
 + animations
 + dragability
 
-###Exercise 2
+### Exercise 2
 
 + Hide url bar (only works if bookmarked) (works in homescreened web app thingy)
 + app display as site-specified icon desktop
@@ -30,5 +30,5 @@
 ? What are periphery elements
 
 
-###Exercise 3
+### Exercise 3
 Home location works locally - insecure connections are the worst
