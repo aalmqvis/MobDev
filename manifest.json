@@ -1,0 +1,61 @@
+{
+  "short_name": "Great web app",
+  "display": "standalone",
+  "theme_color": "green",
+  "background_color": "red",
+  "start_url": "test.html", 
+  "manifest_version": 1,
+  "type": "WebApp",
+  "meta": {
+	  "name": "The KTH map app",
+	  "version": "1.0.1",
+	  "minimum-overwolf-version": "1.0.0.1",
+	  "author": "Anders",
+	  "icon": "resources/apple-touch-icon.png",
+	  "icon_gray": "apple-touch-icon_gray.png",
+	  "description": "Find that thing"	  
+  },
+  "data": {
+	  "windows": {
+	  	"windowName": {
+	      "file": "test.html",
+		}
+	  }
+  },
+     
+/*  "serviceworker": {*/
+/*      "src": "sw.js",*/
+/*      "scope": "/racer/",*/
+/*      "use_cache": false*/
+/*  },*/
+
+  "icons": [{
+    "src": "resources/apple-touch-icon-48x48.png",
+    "sizes": "48x48",
+    "type": "image/png"
+  }, {
+    "src": "resources/apple-touch-icon-72x72.png",
+    "sizes": "72x72",
+    "type": "image/png"
+  }, {
+    "src": "resources/apple-touch-icon-96x96.png",
+    "sizes": "96x96",
+    "type": "image/png"
+  }, {
+    "src": "resources/apple-touch-icon-144x144.png",
+    "sizes": "144x144",
+    "type": "image/png"
+  }, {
+    "src": "resources/apple-touch-icon-168x168.png",
+    "sizes": "168x168",
+    "type": "image/png"
+  }, {
+    "src": "resources/apple-touch-icon-192x192.png",
+    "sizes": "192x192",
+    "type": "image/png"
+  }, {
+    "src": "resources/apple-touch-startup-image-640x1096.png",
+    "sizes": "192x192",
+    "type": "image/png"
+  }],
+}

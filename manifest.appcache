@@ -1,0 +1,13 @@
+CACHE MANIFEST
+test.html
+# stylesheet.css
+resources/apple-touch-icon-48x48.png
+resources/apple-touch-icon-72x72.png
+resources/apple-touch-icon-96x96.png
+resources/apple-touch-icon-120x120.png
+resources/apple-touch-icon-144x144.png
+resources/apple-touch-icon-192x192.png
+resources/launch.png
+
+# scripts/main.js
+# http://cdn.example.com/scripts/main.js
