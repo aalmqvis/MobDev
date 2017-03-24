@@ -67,7 +67,7 @@
 		  map.setCenter({lat:position.coords.latitude , lng:position.coords.longitude });
 	  }
 	  
-	  function CustomControl(controlDiv, map, backgroundColor, border, borderRadius, boxShadow, cursor, marginBottom, textAlign, title, color, fontFamily, fontSize, lineHeight, paddingLeft, paddingRight, innerHTML, event, marker) {
+	  function CustomControl(controlDiv, map, backgroundColor, border, borderRadius, boxShadow, cursor, marginBottom, textAlign, title, color, fontFamily, fontSize, lineHeight, paddingLeft, paddingRight, innerHTML) {
 		  
       	  // Set CSS for the control border.
 		  var controlUI = document.createElement('div');
@@ -91,41 +91,6 @@
           controlText.style.paddingRight = paddingRight;
           controlText.innerHTML = innerHTML
           controlUI.appendChild(controlText);
-		  
-		  if (event == 'zoomIn') {
-		  	controlUI.addEventListener('click', function() {
-		   		map.setZoom(map.zoom+1);
-			});
-		  } else if (event == 'moveEast') {
-		  		controlUI.addEventListener('click', function() {
-		  			map.setCenter({lat: map.getCenter().lat(), lng: map.getCenter().lng()+0.002});  
-		  	});
-		  } else if (event == 'moveWest') {
-		  		controlUI.addEventListener('click', function() {
-		  			map.setCenter({lat: map.getCenter().lat(), lng: map.getCenter().lng()-0.002});
-		  	});
-		  } else if (event == 'moveNorth') {
-		    	controlUI.addEventListener('click', function() {
-		    		map.setCenter({lat: map.getCenter().lat()+0.001, lng: map.getCenter().lng()})
-		    });
-		  }	else if (event == 'moveSouth') {
-				controlUI.addEventListener('click', function() {
-					map.setCenter({lat: map.getCenter().lat()-0.001, lng: map.getCenter().lng()})
-			});
-		  } else if (event == 'Go to Danger') {
-				controlUI.addEventListener('click', function() {
-					map.setCenter(marker.getPosition())
-		    });
-		  } else if (event == 'Go to marker1') {
-				controlUI.addEventListener('click', function() {
-					map.setCenter(marker.getPosition())
-		    });
-		  } else if (event == 'GetCurrentLocation') {
-				controlUI.addEventListener('click', function() {
-					navigator.geolocation.getCurrentPosition(centerOnPos);
-		  	  	});
-			}
-		  
 	  };
 	  
 	  
@@ -153,13 +118,16 @@
 		  var zoomInControlDiv = document.createElement('div');
 		  // Call constructor to create a CustomControl object with attributes:
 		  // customControl(controlDiv, map, backgroundColor, border, borderRadius, boxShadow, cursor, marginBottom, textAlign, title, color, fontFamily, fontSize, lineHeight, paddingLeft, paddingRight, innerHTML, event)
-		  var zoomInControl = new CustomControl(zoomInControlDiv, map, 'white', '3px solid #fff', '300px', '0 2px 6px rgba(0,0,0,.3)', 'pointer', '22px', 'center', 'zoomIn', '#01a1af', 'Roboto,Arial,sans-serif', '30px', '38px', '5px', '5px', 'Zoom +', 'zoomIn')
-		  zoomInControlDiv.index = 1; 	// What for?
-          map.controls[google.maps.ControlPosition.TOP_RIGHT].push(zoomInControlDiv); // So, pushing Div, which has zoomInControl inside itself? Can not push variables, but divs? 
+		  var zoomInControl = new CustomControl(zoomInControlDiv, map, 'white', '3px solid #fff', '300px', '0 2px 6px rgba(0,0,0,.3)', 'pointer', '22px', 'center', 'zoomIn', '#01a1af', 'Roboto,Arial,sans-serif', '30px', '38px', '5px', '5px', 'Zoom +');
+		  zoomInControlDiv.index = 1; 	
+	  	  zoomInControlDiv.addEventListener('click', function() {
+	   		map.setZoom(map.zoom+1);
+		  });
+          map.controls[google.maps.ControlPosition.TOP_RIGHT].push(zoomInControlDiv); 
 		  
 		  // CREATE ZOOM OUT BUTTON
 		  var zoomOutControlDiv = document.createElement('div');
-		  var zoomOutControl = new CustomControl(zoomOutControlDiv, map, 'white', '3px solid #fff', '300px', '0 2px 6px rgba(0,0,0,.3)', 'pointer', '22px', 'center', 'zoomOut', '#01a1af', 'Roboto,Arial,sans-serif', '30px', '38px', '5px', '5px', 'Zoom -', 'zoomOut')
+		  var zoomOutControl = new CustomControl(zoomOutControlDiv, map, 'white', '3px solid #fff', '300px', '0 2px 6px rgba(0,0,0,.3)', 'pointer', '22px', 'center', 'zoomOut', '#01a1af', 'Roboto,Arial,sans-serif', '30px', '38px', '5px', '5px', 'Zoom -');
 		  zoomOutControlDiv.index = 1; 
 		  zoomOutControlDiv.addEventListener( 'click', function() {
 					map.setZoom(map.zoom-1);
@@ -168,27 +136,40 @@
 		  
 		  // CREATE MOVE EAST BUTTON
 		  var moveEastControlDiv = document.createElement('div');
-		  var moveEastControl = new CustomControl(moveEastControlDiv, map, 'white', '8px solid #fff', '300px', '0 2px 6px rgba(0,0,0,.3)', 'pointer', '22px', 'center', 'moveEast', '#01a1af', 'Roboto,Arial,sans-serif', '30px', '38px', '5px', '5px', '>', 'moveEast')
+		  var moveEastControl = new CustomControl(moveEastControlDiv, map, 'white', '8px solid #fff', '300px', '0 2px 6px rgba(0,0,0,.3)', 'pointer', '22px', 'center', 'moveEast', '#01a1af', 'Roboto,Arial,sans-serif', '30px', '38px', '5px', '5px', '>');
 		  moveEastControlDiv.index = 1; 
-		  
+		  moveEastControlDiv.addEventListener( 'click', function() {
+		  			map.setCenter({lat: map.getCenter().lat(), lng: map.getCenter().lng()+0.002});
+		  });
           map.controls[google.maps.ControlPosition.RIGHT_CENTER].push(moveEastControlDiv);
 		  
 		  // CREATE MOVE WEST BUTTON
 		  var moveWestControlDiv = document.createElement('div');
-		  var moveWestControl = new CustomControl(moveWestControlDiv, map, 'white', '8px solid #fff', '300px', '0 2px 6px rgba(0,0,0,.3)', 'pointer', '22px', 'center', 'moveWest', '#01a1af', 'Roboto,Arial,sans-serif', '30px', '38px', '5px', '5px', '\<', 'moveWest')
+		  var moveWestControl = new CustomControl(moveWestControlDiv, map, 'white', '8px solid #fff', '300px', '0 2px 6px rgba(0,0,0,.3)', 'pointer', '22px', 'center', 'moveWest', '#01a1af', 'Roboto,Arial,sans-serif', '30px', '38px', '5px', '5px', '\<');
 		  moveWestControlDiv.index = 1;
+  		  moveWestControlDiv.addEventListener('click', function() {
+  					map.setCenter({lat: map.getCenter().lat(), lng: map.getCenter().lng()-0.002});
+		  });
           map.controls[google.maps.ControlPosition.LEFT_CENTER].push(moveWestControlDiv);
 		 
 		  // CREATE MOVE NORTH BUTTON
 		  var moveNorthControlDiv = document.createElement('div');
-		  var moveNorthControl = new CustomControl(moveNorthControlDiv, map, 'white', '8px solid #fff', '300px', '0 2px 6px rgba(0,0,0,.3)', 'pointer', '22px', 'center', 'moveNorth', '#01a1af', 'Roboto,Arial,sans-serif', '30px', '38px', '5px', '5px', '^', 'moveNorth')
+		  var moveNorthControl = new CustomControl(moveNorthControlDiv, map, 'white', '8px solid #fff', '300px', '0 2px 6px rgba(0,0,0,.3)', 'pointer', '22px', 'center', 'moveNorth', '#01a1af', 'Roboto,Arial,sans-serif', '30px', '38px', '5px', '5px', '^');
 		  moveNorthControlDiv.index = 1;
+    	  moveNorthControlDiv.addEventListener('click', function() {
+    	  	map.setCenter({lat: map.getCenter().lat()+0.001, lng: map.getCenter().lng()})
+    	  });
           map.controls[google.maps.ControlPosition.TOP_CENTER].push(moveNorthControlDiv);
+		  
+		  // PUT COLOR ON THE BUTTONS
 		  
 		  // CREATE MOVE SOUTH BUTTON
 		  var moveSouthControlDiv = document.createElement('div');
-		  var moveSouthControl = new CustomControl(moveSouthControlDiv, map, 'white', '8px solid #fff', '300px', '0 2px 6px rgba(0,0,0,.3)', 'pointer', '22px', 'center', 'moveSouth', '#01a1af', 'Roboto,Arial,sans-serif', '30px', '38px', '5px', '5px', 'v', 'moveSouth')
+		  var moveSouthControl = new CustomControl(moveSouthControlDiv, map, 'white', '8px solid #fff', '300px', '0 2px 6px rgba(0,0,0,.3)', 'pointer', '22px', 'center', 'moveSouth', '#01a1af', 'Roboto,Arial,sans-serif', '30px', '38px', '5px', '5px', 'v');
 		  moveSouthControlDiv.index = 1;
+		  moveSouthControlDiv.addEventListener('click', function() {
+		  	map.setCenter({lat: map.getCenter().lat()-0.001, lng: map.getCenter().lng()})
+		  });
           map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(moveSouthControlDiv);
 		  
 		  // CREATING IMMOBILE MAP MARKER
@@ -226,16 +207,15 @@
 			  animation: google.maps.Animation.DROP,
 			  title: 'Uh oh'
 		  });
-		  
-		  
-		  
-		  // customControl(controlDiv, map, backgroundColor, border, borderRadius, boxShadow, cursor, marginBottom, textAlign, title, color, fontFamily, fontSize, lineHeight, paddingLeft, paddingRight, innerHTML, event)
 	  
 		  
 		  // CENTER MAP AT DANGEROUS PLACE
 		  var dangerControlDiv = document.createElement('div');
- 		  var dangerControl = new CustomControl(dangerControlDiv, map, 'red', '1px solid #fff', '30px', '0 2px 2px rgba(0,0,0,.3)', 'pointer', '8px', 'center', 'Go to Danger', '#01a1af', 'Roboto,Arial,sans-serif', '13px', '15px', '2px', '2px', 'Danger', 'Go to Danger', markerBermuda);
+ 		  var dangerControl = new CustomControl(dangerControlDiv, map, 'red', '1px solid #fff', '30px', '0 2px 2px rgba(0,0,0,.3)', 'pointer', '8px', 'center', 'Go to Danger', '#01a1af', 'Roboto,Arial,sans-serif', '13px', '15px', '2px', '2px', 'Danger');
  		  dangerControlDiv.index = 1;
+		  dangerControlDiv.addEventListener('click', function() { 	
+		  	map.setCenter(markerBermuda.getPosition())
+		  });
           map.controls[google.maps.ControlPosition.RIGHT_TOP].push(dangerControlDiv);
 		  
 		  
@@ -251,15 +231,21 @@
 		  
 		  // CENTER MAP AT marker1 POSITION
 		  var marker1ControlDiv = document.createElement('div');
- 		  var marker1Control = new CustomControl(marker1ControlDiv, map, 'green', '1px solid #fff', '30px', '0 2px 2px rgba(0,0,0,.3)', 'pointer', '8px', 'center', 'marker1', '#01a1af', 'Roboto,Arial,sans-serif', '13px', '15px', '2px', '2px', 'Home, Sweaty home', 'Go to marker1', marker1);
+ 		  var marker1Control = new CustomControl(marker1ControlDiv, map, 'green', '1px solid #fff', '30px', '0 2px 2px rgba(0,0,0,.3)', 'pointer', '8px', 'center', 'marker1', '#01a1af', 'Roboto,Arial,sans-serif', '13px', '15px', '2px', '2px', 'Home, Sweaty home');
  		  marker1ControlDiv.index = 1;
+		  marker1ControlDiv.addEventListener('click', function() {
+		  	map.setCenter(marker1.getPosition())
+		  });
           map.controls[google.maps.ControlPosition.RIGHT_TOP].push(marker1ControlDiv);
 		  
 		  
 		  
 		  var btnInitDiv = document.createElement('div');
-		  var btnInit = new CustomControl(btnInitDiv, map, 'blue', '1px solid #fff', '30px', '0 2px 2px rgba(0,0,0,.3)', 'pointer', '8px', 'center', 'Current location', '#01a1af', 'Roboto,Arial,sans-serif', '13px', '15px', '2px', '2px', 'Get current loc', 'GetCurrentLocation');
+		  var btnInit = new CustomControl(btnInitDiv, map, 'blue', '1px solid #fff', '30px', '0 2px 2px rgba(0,0,0,.3)', 'pointer', '8px', 'center', 'Current location', '#01a1af', 'Roboto,Arial,sans-serif', '13px', '15px', '2px', '2px', 'Get current loc');
  		  btnInitDiv.index = 1;
+		  btnInitDiv.addEventListener('click', function() {
+		  	navigator.geolocation.getCurrentPosition(centerOnPos);
+		  });
           map.controls[google.maps.ControlPosition.RIGHT_TOP].push(btnInitDiv);
 		  
 		  
