@@ -4,6 +4,9 @@ It can take some effort to create an iBeacon app, especially if you want it to b
 
 Read the full guide on the [Evothings website](http://evothings.com/quick-guide-to-writing-mobile-ibeacon-applications-in-javascript/).
 
+
+last git that sort of worked: 30b5efe
+
 <!--
 ## What are iBeacons?
 
