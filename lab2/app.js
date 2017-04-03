@@ -13,13 +13,13 @@ app.beaconRegions =
 		minor: 2054
 	},
 	{
-		id: 'page-shoulders',
+		id: 'page-laidBackJazz',
 		uuid:'B9407F30-F5F8-466E-AFF9-25556B57FE6D',
 		major: 7301,
 		minor: 17572
 	},
 	{
-		id: 'page-face',
+		id: 'page-rock',
 		uuid:'B9407F30-F5F8-466E-AFF9-25556B57FE6D',
 		major: 22460,
 		minor: 60720
