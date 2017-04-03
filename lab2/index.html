@@ -1,75 +1,83 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, user-scalable=yes,
 		initial-scale=1.0" />
 
-	<title>Relaxation iBeacons</title>
+	<title>Silent Headphone Disco</title>
 
 	<style>
-	@import 'page.css';
+		@import 'ui/css/page.css';
 	</style>
 
 	<script>
-	// Redirect console if running from Evothings Workbench.
+	// Redirect console.log to Evothings Workbench.
 	if (window.hyper) { console.log = hyper.log }
 	</script>
+
 </head>
 
 <body>
+
 	<div class="my-page" id="page-default">
 		<div class="my-header">
-			<img class="my-header-image" src="photos/photo-default.jpg" />
-			<img class="my-icon-back" src="icon-back.png" ontouchend="history.back()" />
+			<img class="my-header-image" src="ui/images/photo-default.png" />
+			<img class="my-icon-back" src="ui/images/icon-back.png" ontouchend="history.back()" />
 		</div>
 		<div class="my-content">
-			<h1>MusicMusicMusic</h1>
-			<p>Please move within range of the Relaxation iBeacons.</p>
+			<h1>Silent Headphone Disco</h1>
+			<p>Put on your headphones. Find a place where your kind of music is being played. DANCE!</p>
 		</div>
 	</div>
 
-	<div class="my-page" id="page-feet">
+	<div class="my-page" id="page-oldies">
 		<div class="my-header">
-			<img class="my-header-image" src="photos/photo-feet.jpg" />
-			<img class="my-icon-back" src="icon-back.png" ontouchend="history.back()" />
+			<img class="my-header-image" src="ui/images/photo-oldies.png" />
+			<img class="my-icon-back" src="ui/images/icon-back.png" ontouchend="history.back()" />
 		</div>
 		<div class="my-content">
-			<h1>Here is music from Beyonce.</h1>
-			<audio controls id="page-feet-audio">
-			<source src= "02 Hold Up.mp3" type="audio/mpeg">
+			<h1>Swing your hips, it is some olden hits!</h1>
+			<audio controls id="page-oldies-audio">
+			<source src= "audio/julio_iglesias.mp3" type="audio/mpeg">
 			</audio>
 		</div>
 	</div>
 
-	<div class="my-page" id="page-shoulders">
+	<div class="my-page" id="page-laidBackJazz">
 		<div class="my-header">
-			<img class="my-header-image" src="photos/photo-shoulders-1.jpg" />
-			<img class="my-icon-back" src="icon-back.png" ontouchend="history.back()" />
+			<img class="my-header-image" src="ui/images/photo-laidBackJazz.png" />	
+			<img class="my-icon-back" src="ui/images/icon-back.png" ontouchend="history.back()" />
 		</div>
 		<div class="my-content">
-			<h1>Here is music from Beach House.</h1>
-			<audio controls id="page-shoulders-audio">
-			<source src= "03 Norway.mp3" type="audio/mpeg">
+			<h1>Bob along, show your class to this laid back jazz!</h1>
+			<audio controls id="page-laidBackJazz-audio">
+			<source src= "audio/young_coconut.mp3" type="audio/mpeg">
 			</audio>
 		</div>
 	</div>
 
-	<div class="my-page" id="page-face">
+	<div class="my-page" id="page-rock">
 		<div class="my-header">
-			<img class="my-header-image" src="photos/photo-face.jpg" />
-			<img class="my-icon-back" src="icon-back.png" ontouchend="history.back()" />
+			<img class="my-header-image" src="ui/images/photo-rock.png" />
+			<img class="my-icon-back" src="ui/images/icon-back.png" ontouchend="history.back()" />
 		</div>
 		<div class="my-content">
-			<h1>Here is music from Ravel.</h1>
-			<audio controls id="page-face-audio">
-			<source src= "sonatine.mp3" type="audio/mpeg">
+			<h1>Jump, take the leap into the rock and roll heap!</h1>
+			<audio controls id="page-rock-audio">
+			<source src= "audio/mink_mussel_creek.mp3" type="audio/mpeg">
 			</audio>
 		</div>
 	</div>
 
-	<script src="lib/jquery.js"></script>
-	<script src="cordova.js"></script>
+	<script src="libs/evothings/evothings.js"></script>
+	<script src="libs/evothings/ui/ui.js"></script>
+	<script src="libs/jquery/jquery.js"></script>
+	<script src="../ibeacon-scan/platforms/osx/platform_www/cordova.js"></script> 
 	<script src="app.js"></script>
+
 </body>
+
 </html>

@@ -7,7 +7,7 @@ var app = {}
 app.beaconRegions =
 [
 	{
-		id: 'page-feet',
+		id: 'page-oldies',
 		uuid:'B9407F30-F5F8-466E-AFF9-25556B57FE6D',
 		major: 65240,
 		minor: 2054
