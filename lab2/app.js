@@ -14,9 +14,9 @@ app.beaconRegions =
 	},
 	{
 		id: 'page-laidBackJazz',
-		uuid:'B9407F30-F5F8-466E-AFF9-25556B57FE6D',
-		major: 7301,
-		minor: 17572
+		uuid:'A9BD2BB2-8632-4211-A540-F497634F177',
+		major: 16808,
+		minor: 19400
 	},
 	{
 		id: 'page-rock',
@@ -117,7 +117,7 @@ app.didRangeBeaconsInRegion = function(pluginResult)
 	//console.log('ranged beacon: ' + pageId + ' ' + beacon.proximity)
 
 	// If the beacon is close and represents a new page, then show the page.
-	if ((beacon.proximity == 'ProximityImmediate')
+	if ((beacon.proximity == 'ProximityNear')
 		&& app.currentPage == 'page-default')
 	{
 		app.gotoPage(pageId)
@@ -126,7 +126,7 @@ app.didRangeBeaconsInRegion = function(pluginResult)
 
 	// If the beacon represents the current page but is far away,
 	// then show the default page.
-	if ((beacon.proximity == 'ProximityFar' || beacon.proximity == 'ProximityNear')
+	if ((beacon.proximity == 'ProximityFar')
 		&& app.currentPage == pageId)
 	{
 		app.gotoPage('page-default')
