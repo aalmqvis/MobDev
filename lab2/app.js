@@ -6,23 +6,23 @@ var app = {}
 // Regions that define which page to show for each beacon.
 app.beaconRegions =
 [
-	{
+	{						// Updated major and minor according to the picture in social
 		id: 'page-oldies',
 		uuid:'B9407F30-F5F8-466E-AFF9-25556B57FE6D',
-		major: 65240,
-		minor: 2054
+		major: 46146,
+		minor: 34612
 	},
 	{
 		id: 'page-laidBackJazz',
 		uuid:'A9BD2BB2-8632-4211-A540-F497634F177',
-		major: 16808,
-		minor: 19400
+		major: 57356,
+		minor: 14220
 	},
 	{
 		id: 'page-rock',
 		uuid:'B9407F30-F5F8-466E-AFF9-25556B57FE6D',
-		major: 22460,
-		minor: 60720
+		major: 22296,
+		minor: 48975
 	}
 ]
 
