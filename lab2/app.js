@@ -119,25 +119,31 @@ app.didRangeBeaconsInRegion = function(pluginResult)
 
 	//console.log('ranged beacon: ' + pageId + ' ' + beacon.proximity)
 	
-	var rssiWidth = 1; // Used when RSSI is zero or greater.
-	if (beacon.rssi < -100) { 
-		rssiWidth = 100; 
-	}
-	else if (beacon.rssi < 0){ 
-		rssiWidth = 100 + beacon.rssi; 
-	}
-	if(beacon.major == app.beaconRegions[0].major && beacon.minor == app.beaconRegions[0].minor){
-	
-		$('#page-default').find('#rssiViolett').css("width", rssiWidth + "px");
-	}
-	if(beacon.major == app.beaconRegions[1].major && beacon.minor == app.beaconRegions[1].minor){
+		var updateRange = "Searching for beacon";
+		if(beacon.proximity == 'ProximityImmediate'){
+			updateRange = "Really close"
+		}else if(beacon.proximity == 'ProximityNear'){
+			updateRange = "It's near";
+
+		}else if(beacon.proximity == 'ProximityFar'){
+			updateRange = "It's far";
+		}else if(beacon.proximity == 'ProximityUnknown'){
+			updateRange = "Searching for beacon";
+		}
+		if(beacon.major == app.beaconRegions[1].major && beacon.minor == app.beaconRegions[1].minor){
 		
-	}
-	if(beacon.major == app.beaconRegions[2].major && beacon.minor == app.beaconRegions[2].minor){
-		
-	}
+			$('#' + app.currentPage).find('#meter-laidBackJazz').text(updateRange)
+		}
+		if(beacon.major == app.beaconRegions[0].major && beacon.minor == app.beaconRegions[0].minor){
+			$('#' + app.currentPage).find('#meter-oldies').text(updateRange)
+
+		}
+		if(beacon.major == app.beaconRegions[2].major && beacon.minor == app.beaconRegions[2].minor){
+			$('#' + app.currentPage).find('#meter-rock').text(updateRange)	
+		}
 	// If the beacon is close and represents a new page, then show the page.
-	if ((beacon.proximity == 'ProximityNear' || beacon.proximity == 'ProximityImmediate') && app.currentPage == 'page-default')
+	if ((beacon.proximity == 'ProximityImmediate' ||  beacon.proximity == 'ProximityNear')
+		&& app.currentPage == 'page-default')
 	{
 		app.gotoPage(pageId)
 		return
@@ -145,37 +151,12 @@ app.didRangeBeaconsInRegion = function(pluginResult)
 
 	// If the beacon represents the current page but is far away,
 	// then show the default page.
-	if ((beacon.proximity == 'ProximityFar') && app.currentPage == pageId)
+	if ((beacon.proximity == 'ProximityFar' || beacon.proximity == 'ProximityNear')
+		&& app.currentPage == pageId)
 	{
 		app.gotoPage('page-default')
 		return
 	}
-
-	
-	// document.getElementById(app.currentPage).append(beacon.rssi);
-	var rssiWidth = 1; // Used when RSSI is zero or greater.
-
-	if (beacon.rssi < -100){ 
-		rssiWidth = 100; 
-	}
-	else if (beacon.rssi < 0){ 
-		rssiWidth = 100 + beacon.rssi; 
-	}
-
-	// document.getElementById(app.currentPage).append(beacon.rssi);
-
-	if (beacon.major == 57356 && beacon.minor == 14220) {
-		var element = $(
-			// 	+'<div style="background:rgb(255,128,64);height:20px;width:' + rssiWidth + '%;">'
-			// '</div>'
-				beacon.rssi
-		);
-		// curP.append(element)
-
-	};
-	// document.getElementById('rssiMeter').style.width = 100;
-
-
 }
 
 app.gotoPage = function(pageId)
