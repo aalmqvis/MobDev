@@ -187,14 +187,24 @@ app.gotoPage = function(pageId)
 
 app.showPage = function(pageId)
 {
-	document.getElementById(pageId).style.display = 'block'
+	document.getElementById(pageId).style.display = 'block';
+	soundToPlay = document.getElementById(pageId + "-audio");
+	if (soundToPlay)
+	{		
+		soundToPlay.muted = false;
+		soundToPlay.volume = 1;
+	}
 }
 
 app.hidePage = function(pageId)
 {
-	var sounds = document.getElementsByTagName("audio");
-	for (i=0; i<sounds.length; i++) sounds[i].pause();
-	document.getElementById(pageId).style.display = 'none'
+	document.getElementById(pageId).style.display = 'none';
+	soundplaying = document.getElementById(pageId + "-audio");
+	if (soundplaying)
+	{
+		soundplaying.muted = true;
+		soundplaying.volume = 1;
+	}
 }
 
 // Set up the application.
