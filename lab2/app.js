@@ -118,7 +118,24 @@ app.didRangeBeaconsInRegion = function(pluginResult)
 	var pageId = pluginResult.region.identifier
 
 	//console.log('ranged beacon: ' + pageId + ' ' + beacon.proximity)
-
+	
+	var rssiWidth = 1; // Used when RSSI is zero or greater.
+	if (beacon.rssi < -100) { 
+		rssiWidth = 100; 
+	}
+	else if (beacon.rssi < 0){ 
+		rssiWidth = 100 + beacon.rssi; 
+	}
+	if(beacon.major == app.beaconRegions[0].major && beacon.minor == app.beaconRegions[0].minor){
+	
+		$('#page-default').find('#rssiViolett').css("width", rssiWidth + "px");
+	}
+	if(beacon.major == app.beaconRegions[1].major && beacon.minor == app.beaconRegions[1].minor){
+		
+	}
+	if(beacon.major == app.beaconRegions[2].major && beacon.minor == app.beaconRegions[2].minor){
+		
+	}
 	// If the beacon is close and represents a new page, then show the page.
 	if ((beacon.proximity == 'ProximityNear' || beacon.proximity == 'ProximityImmediate') && app.currentPage == 'page-default')
 	{
