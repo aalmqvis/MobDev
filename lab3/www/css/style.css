@@ -1,5 +1,6 @@
 html, body
 {
+	/*<!-- Body background color wont change for some reason... -->*/
 	margin: 0px;
 	padding: 0px;
 }
@@ -33,15 +34,36 @@ html, body
 {
 	margin: 10px 20px;
 	padding: 0;
-	font-family: sans-serif;
+	font-size: 77%;
+	font-family: Trebuchet;
+	color: rgb(47,21,34);
+	background-color: rgb(227,212,193);
 }
 
 .my-content h1
 {
-	font-size: 150%;
+	font-size: 170%;
+	color: rgb(67,31,44);
+
 }
 
 .my-content p, .my-content ul
 {
 	font-size: 120%;
+}
+
+/* How to adjust active tab color? */
+.tab-bar__button 
+{
+	background-color: rgb(296, 205, 173);
+}
+
+.center
+{
+	color: rgb(42,83,99);
+}
+
+.navigation-bar
+{
+	background-color: rgb(236, 165, 133);
 }
