@@ -1,6 +1,8 @@
 html, body
 {
 	/*<!-- Body background color wont change for some reason... -->*/
+	background-color: black;
+	height: 100%;
 	margin: 0px;
 	padding: 0px;
 }
@@ -12,8 +14,7 @@ html, body
 
 .my-header
 {
-	background-color: rgb(113,48,19);
-
+	background-color: #533747;
 }
 
 .my-header-image
@@ -39,7 +40,7 @@ html, body
 	font-size: 77%;
 	font-family: Trebuchet;
 	color: rgb(47,21,34);
-	background-color: rgb(227,212,193);
+	background-color: #86BBBD;
 }
 
 .my-content h1
@@ -60,33 +61,52 @@ html, body
 
 #about-content
 {
-	color: rgb(1,22,123);
+	background-color: #86BBBD;
 	font-size: 137%;
 }
 
-/* How to adjust active tab color? */
 .tab-bar__button 
 {
-	background-color: rgb(296, 205, 173);
+	background-color: #533747;
+}
+
+/* Active tab */
+.tab-bar
+{
+	background-color: #6A6B83;
 }
 
 .tabLabel
 {
-	font-size: 150%;
+	font-size: 30%;
 }
 
 .center
 {
-	color: rgb(42,83,99);
+	color: grey;
 }
 
 .navigation-bar
 {
-	background-color: rgb(236, 165, 133);
+	background-color: #5F506B;
+		color: white;
+
 }
 
-.right
+.ons-page
 {
-/*	background-color: rgb(206, 135, 113);
-*/
+	background-color: black;
+}
+
+.toolbar-button
+{
+	color: grey;
+	font-family: arial;
+	border-color: #7D26CD;
+	border-left-width: 4px;
+}
+
+.page__background
+{
+	background-color: #76949F;
 }

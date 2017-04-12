@@ -19,28 +19,75 @@
   </script>
 
   <script>
-
     var showDialog = function(id) {
       document
         .getElementById(id)
         .show();
+    }
+    var hideDialog = function(id) {
+      document
+        .getElementById(id)
+        .hide();    
+      }
+  </script>
+
+  <script>
+    window.fn = {};
+
+    window.fn.open = function() {
+      var menu = document.getElementById('menu');
+      menu.open();
     };
 
-    
+    window.fn.load = function(page) {
+      var content = document.getElementById('content');
+      var menu = document.getElementById('menu');
+      content.load(page)
+        .then(menu.close.bind(menu));
+    };
   </script>
 
 </head>
 <body>
   <ons-navigator id="navigator" page="page-about.html"></ons-navigator>
 
+<ons-splitter>
+  <ons-splitter-side id="menu" side="left" width="220px" split swipeable>
+    <ons-page>
+      <ons-list>
+        <ons-list-item onclick="fn.load('page-about.html')" tappable>
+          About
+        </ons-list-item>
+        <ons-list-item onclick="fn.load('page-feet.html')" tappable>
+          Feet
+        </ons-list-item>
+        <ons-list-item onclick="fn.load('page-shoulder.html')" tappable>
+          Shoulder
+        </ons-list-item>
+        <ons-list-item onclick="fn.load('page-face.html')" tappable>
+          Face
+        </ons-list-item>
+      </ons-list>
+    </ons-page>
+  </ons-splitter-side>
+  <ons-splitter-content id="content" page="page-about.html"></ons-splitter-content>
+</ons-splitter>
+
   <ons-page id="home">
     <div class="my-header">
       <ons-toolbar>
+
+        <div class="left">
+          <ons-toolbar-button onclick="fn.open()">
+            <ons-icon icon="md-menu"></ons-icon>
+          </ons-toolbar-button>
+        </div>
+
         <div class="center">
           Relaxation iBeacons
         </div>
-        <div class="right" id="toolbar-button">
-          <ons-toolbar-button>Button</ons-toolbar-button>
+        <div class="right" >
+          <ons-toolbar-button id="toolbar-button" tappable cancelable onclick="showDialog('dialog-1')">Button</ons-toolbar-button>
         </div>
       </ons-toolbar>
     </div>
@@ -49,17 +96,21 @@
     <!-- USING TAB ICONS, i can't get it to work -->
     <div class="tabLabel">
       <ons-tabbar position="auto">
-        <ons-tab page="page-about.html" icon="images/beaker.png" active>
+        <ons-tab page="page-about.html" active>
+          <ons-icon icon="md-home"></ons-icon>
           <span style="font-size: 14px">About</span>
         </ons-tab>
-        <ons-tab page="page-feet.html" icon="images/beaker.png">
-          <span>Feet</span>
+        <ons-tab page="page-feet.html" icon="md-face">
+          <ons-icon icon="fa-paw"></ons-icon>
+          <span style="font-size: 13px">Feet</span>
         </ons-tab>
-        <ons-tab page="page-shoulder.html" icon="images/beaker.png">
-          <span>Shoulder</span>
+        <ons-tab page="page-shoulder.html" icon="cog">
+          <ons-icon icon="ion-ios-body"></ons-icon>
+          <span style="font-size: 13px">Shoulder</span>
         </ons-tab>
-        <ons-tab page="page-face.html" icon="images/beaker.png">
-          <span>Face</span>
+        <ons-tab page="page-face.html">
+          <ons-icon icon="ion-person"></ons-icon>
+          <span style="font-size: 13px">Face</span>
         </ons-tab>
       </ons-tabbar>
     </div>
@@ -174,9 +225,10 @@
   </ons-page> 
   </ons-template>
 
-  <ons-alert-dialog id="dialog-1">
-    <p> Ugg, this is a dialogue </p>
-  </ons-alert-dialog>
+  <ons-dialog id="dialog-1">
+    Ugg, this is a dialogue!!!
+    <ons-button onclick="hideDialog('dialog-1')">Close</ons-button>
+  </ons-dialog>
 
 </body>
 </html>
