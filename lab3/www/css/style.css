@@ -12,6 +12,8 @@ html, body
 
 .my-header
 {
+	background-color: rgb(113,48,19);
+
 }
 
 .my-header-image
@@ -44,7 +46,6 @@ html, body
 {
 	font-size: 170%;
 	color: rgb(67,31,44);
-
 }
 
 .my-content p, .my-content ul
@@ -52,10 +53,26 @@ html, body
 	font-size: 120%;
 }
 
+.my-content li
+{
+	font-size: 117%;
+}
+
+#about-content
+{
+	color: rgb(1,22,123);
+	font-size: 137%;
+}
+
 /* How to adjust active tab color? */
 .tab-bar__button 
 {
 	background-color: rgb(296, 205, 173);
+}
+
+.tabLabel
+{
+	font-size: 150%;
 }
 
 .center
@@ -66,4 +83,10 @@ html, body
 .navigation-bar
 {
 	background-color: rgb(236, 165, 133);
+}
+
+.right
+{
+/*	background-color: rgb(206, 135, 113);
+*/
 }

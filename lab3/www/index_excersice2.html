@@ -19,7 +19,14 @@
   </script>
 
   <script>
-   
+
+    var showDialog = function(id) {
+      document
+        .getElementById(id)
+        .show();
+    };
+
+    
   </script>
 
 </head>
@@ -32,19 +39,30 @@
         <div class="center">
           Relaxation iBeacons
         </div>
+        <div class="right" id="toolbar-button">
+          <ons-toolbar-button>Button</ons-toolbar-button>
+        </div>
       </ons-toolbar>
     </div>
     <h1 align="center">Exercise 2</h1>
 
-
     <!-- USING TAB ICONS, i can't get it to work -->
-    <ons-tabbar position="auto">
-      <ons-tab label="About" page="page-about.html" icon="images/beaker.png" active></ons-tab>
-      <ons-tab label="Feet" page="page-feet.html" icon="images/beaker.png"></ons-tab>
-      <ons-tab label="Shoulders" page="page-shoulder.html" icon="images/beaker.png"></ons-tab>
-      <ons-tab label="Face" page="page-face.html" icon="images/beaker.png"></ons-tab>
-    </ons-tabbar>
-
+    <div class="tabLabel">
+      <ons-tabbar position="auto">
+        <ons-tab page="page-about.html" icon="images/beaker.png" active>
+          <span style="font-size: 14px">About</span>
+        </ons-tab>
+        <ons-tab page="page-feet.html" icon="images/beaker.png">
+          <span>Feet</span>
+        </ons-tab>
+        <ons-tab page="page-shoulder.html" icon="images/beaker.png">
+          <span>Shoulder</span>
+        </ons-tab>
+        <ons-tab page="page-face.html" icon="images/beaker.png">
+          <span>Face</span>
+        </ons-tab>
+      </ons-tabbar>
+    </div>
   </ons-page>
 
   <ons-template id="page-about.html">
@@ -55,18 +73,17 @@
       </ons-toolbar>
       <img class="my-header-image" src="images/photo-default-unused.jpg"/>
     </div>
-    <div class="my-content">
+    <div id="about-content" class="my-content">
       <h1 align="center">About</h1>
       <ul>
         Just relax. <br>
         Appination - a nation just for app developers. <br>
         Join the demoncracy now! <br>
-        Demon 1: Jonathan <br>
-        Demon 2: Ziad <br>
-        Demon 3: Andreas
+        Deodorant 1: Jonathan <br>
+        Deodorant 2: Ziad <br>
+        Deodorant 3: Andreas
       </ul>
     </div>
-    
   </ons-page> 
   </ons-template>
 
@@ -93,6 +110,9 @@
         <li>Feel the connection between the top of the head and the feet.</li>
       </ul>
     </div>
+    <div align="center">
+      <ons-switch></ons-switch>
+    </div>
   </ons-page>
   </ons-template>
 
@@ -115,6 +135,9 @@
         <li>Alternate three more times on each side.</li>
         <li>Experience the breath flowing in and out of the body.</li>
       </ul>
+    </div>
+    <div align="center">
+      <ons-switch></ons-switch>
     </div>
   </ons-page> 
   </ons-template>
@@ -145,8 +168,15 @@
         <li>The space surrounding the head.</li>
       </ul>
     </div>
+    <div align="center">
+      <ons-switch></ons-switch>
+    </div>
   </ons-page> 
   </ons-template>
+
+  <ons-alert-dialog id="dialog-1">
+    <p> Ugg, this is a dialogue </p>
+  </ons-alert-dialog>
 
 </body>
 </html>
