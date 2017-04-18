@@ -42,6 +42,7 @@
       var menu = document.getElementById('menu');
       content.load(page)
         .then(menu.close.bind(menu));
+  
     };
   </script>
 </head>
@@ -68,21 +69,44 @@
       </ons-list>
     </ons-page>
   </ons-splitter-side>
-  <ons-splitter-content id="content" page="page-about.html"></ons-splitter-content>
+  <ons-splitter-content id="content" page="tabbar.html"> </ons-splitter-content>
 </ons-splitter>
+  <ons-toolbar>
+    <div class="left">
+        <ons-toolbar-button onclick="fn.open()">
+          <ons-icon icon="md-menu"></ons-icon>
+        </ons-toolbar-button>
+    </div>
+    <div class="right" >
+        <ons-toolbar-button id="toolbar-button" tappable cancelable onclick="showDialog('dialog-1')">Button</ons-toolbar-button>
+    </div>
+    <div class="center">Relaxation iBeacons</div>
+  </ons-toolbar>
+  
+  <ons-template id="tabbar.html">
+   <div class="tabLabel">
+    <ons-tabbar id="tabbar" position="auto">
+      <ons-tab page="page-about.html" active>
+        <ons-icon icon="md-home"></ons-icon>
+        <span style="font-size: 14px">About</span>
+      </ons-tab>
+      <ons-tab page="page-feet.html" icon="md-face">
+        <ons-icon icon="fa-paw"></ons-icon>
+        <span style="font-size: 13px">Feet</span>
+      </ons-tab>
+      <ons-tab page="page-shoulder.html" icon="cog">
+        <ons-icon icon="ion-ios-body"></ons-icon>
+        <span style="font-size: 13px">Shoulder</span>
+      </ons-tab>
+      <ons-tab page="page-face.html">
+        <ons-icon icon="ion-person"></ons-icon>
+        <span style="font-size: 13px">Face</span>
+      </ons-tab>
+    </ons-tabbar>
+  </div>
 </ons-template>
 
-<ons-toolbar>
-        <div class="left">
-            <ons-toolbar-button onclick="fn.open()">
-              <ons-icon icon="md-menu"></ons-icon>
-            </ons-toolbar-button>
-        </div>
-        <div class="right" >
-            <ons-toolbar-button id="toolbar-button" tappable cancelable onclick="showDialog('dialog-1')">Button</ons-toolbar-button>
-        </div>
-        <div class="center">Relaxation iBeacons</div>
-      </ons-toolbar>
+
 <ons-template id="page-about.html">
   <ons-page id="page-about">
 
@@ -127,6 +151,9 @@
     <div align="center">
       <ons-switch></ons-switch>
     </div>
+    <script>
+      document.getElementById('tabbar').setVisability
+    </script>
   </ons-page>
   </ons-template>
 
