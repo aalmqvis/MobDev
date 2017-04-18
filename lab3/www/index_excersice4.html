@@ -47,6 +47,7 @@
 </head>
 <body>
 <ons-navigator id="myNavigator" page="splitter.html"> </ons-navigator>
+
 <ons-template id="splitter.html">
 <ons-splitter>
   <ons-splitter-side id="menu" side="left" width="220px" collapse swipeable>
@@ -71,20 +72,21 @@
 </ons-splitter>
 </ons-template>
 
-<ons-template id="page-about.html">
-  <ons-page id="page-about">
-    <div class="my-header">
-      <ons-toolbar>
-      <div class="left">
-          <ons-toolbar-button onclick="fn.open()">
-            <ons-icon icon="md-menu"></ons-icon>
-          </ons-toolbar-button>
+<ons-toolbar>
+        <div class="left">
+            <ons-toolbar-button onclick="fn.open()">
+              <ons-icon icon="md-menu"></ons-icon>
+            </ons-toolbar-button>
         </div>
-      <div class="right" >
-          <ons-toolbar-button id="toolbar-button" tappable cancelable onclick="showDialog('dialog-1')">Button</ons-toolbar-button>
+        <div class="right" >
+            <ons-toolbar-button id="toolbar-button" tappable cancelable onclick="showDialog('dialog-1')">Button</ons-toolbar-button>
         </div>
         <div class="center">Relaxation iBeacons</div>
       </ons-toolbar>
+<ons-template id="page-about.html">
+  <ons-page id="page-about">
+
+    <div class="my-header">
       <img class="my-header-image" src="images/photo-default-unused.jpg"/>
     </div>
     <div id="about-content" class="my-content">
@@ -98,20 +100,13 @@
         Deodorant 3: Andreas
       </ul>
     </div>
+
   </ons-page> 
 </ons-template>
 
 <ons-template id="page-feet.html">
   <ons-page id="page-feet">
     <div class="my-header">
-      <ons-toolbar>
-        <div class="left">
-            <ons-toolbar-button onclick="fn.open()">
-              <ons-icon icon="md-menu"></ons-icon>
-            </ons-toolbar-button>
-        </div>
-        <div class="center">Relaxation iBeacons</div>
-      </ons-toolbar>
       <img class="my-header-image" src="images/photo-feet.jpg"/>
     </div>
     <div class="my-content">
@@ -138,14 +133,6 @@
   <ons-template id="page-shoulder.html">
   <ons-page id="page-shoulder">
     <div class="my-header">
-      <ons-toolbar>
-        <div class="left">
-            <ons-toolbar-button onclick="fn.open()">
-              <ons-icon icon="md-menu"></ons-icon>
-            </ons-toolbar-button>
-        </div>
-        <div class="center">Relaxation iBeacons</div>
-      </ons-toolbar>
       <img class="my-header-image" src="images/photo-shoulders-1.jpg"/>
     </div>
     <div class="my-content">
@@ -169,14 +156,6 @@
   <ons-template id="page-face.html">
   <ons-page id="page-face">
     <div class="my-header">
-      <ons-toolbar>
-        <div class="left">
-            <ons-toolbar-button onclick="fn.open()">
-              <ons-icon icon="md-menu"></ons-icon>
-            </ons-toolbar-button>
-        </div>
-        <div class="center">Relaxation iBeacons</div>
-      </ons-toolbar>
       <img class="my-header-image" src="images/photo-face.jpg"/>
     </div>
     <div class="my-content">
