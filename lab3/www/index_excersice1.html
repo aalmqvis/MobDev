@@ -19,20 +19,25 @@
   </script>
 
   <script>
+    ons.platform.select('ios');
+    //ons.platform.select('android')
+  </script>
+
+  <script>
     document.addEventListener('init', function(event) {
       var page = event.target;
 
       if (page.matches('#home')){
-        page.querySelector('#button-feet').onclick = function() {
+        page.querySelector('#text-feet').onclick = function() {
           document.querySelector('#navigator').pushPage('page-feet.html');
         };
-        page.querySelector('#button-shoulder').onclick = function() {
+        page.querySelector('#text-shoulder').onclick = function() {
           document.querySelector('#navigator').pushPage('page-shoulder.html');
         };
-        page.querySelector('#button-face').onclick = function() {
+        page.querySelector('#text-face').onclick = function() {
           document.querySelector('#navigator').pushPage('page-face.html');
         };
-        page.querySelector('#button-about').onclick = function() {
+        page.querySelector('#text-about').onclick = function() {
           document.querySelector('#navigator').pushPage('page-about.html');
         };
 
@@ -58,10 +63,18 @@
       </div>
       <h1 align="center">Exercise 1</h1>
       <!-- In lab instructions it says: "make a list of names of practices". Will a list of buttons be alright, or do they mean a list of just plain text? and link each row? -->
-      <div class"left"><ons-button id="button-feet" ripple>Feel your feet</ons-button></div>
-      <div class"left"><ons-button id="button-shoulder" ripple>Feel your shoulders</ons-button></div>
-      <div class"left"><ons-button id="button-face" ripple>Feel your face</ons-button></div>
-      <div class"left"><ons-button id="button-about" modifier="light" ripple>About</ons-button></div>
+      <!-- <div class"left"><ons-button id="button-feet" ripple>Feel your feet</ons-button></div> -->
+      <!-- <div class"left"><ons-button id="button-shoulder" ripple>Feel your shoulders</ons-button></div> -->
+      <!-- <div class"left"><ons-button id="button-face" ripple>Feel your face</ons-button></div> -->
+      <!-- <div class"left"><ons-button id="button-about" modifier="light" ripple>About</ons-button></div> -->
+
+      <div class="my-content">
+        <li id="text-feet">Feel your feet</li>
+        <li id="text-shoulder">Feel your shoulders</li>
+        <li id="text-face">Feel your face</li>
+        <li id="text-about"><span style="color:grey">About</span></li>
+      </div>
+
     </ons-page>
   </ons-template>
 

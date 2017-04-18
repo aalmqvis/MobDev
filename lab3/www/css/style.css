@@ -63,6 +63,8 @@ html, body
 {
 	background-color: #86BBBD;
 	font-size: 137%;
+	padding: 10;
+
 }
 
 .tab-bar__button 
