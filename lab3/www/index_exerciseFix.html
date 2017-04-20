@@ -4,9 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <meta http-equiv="Content-Security-Policy" content="default-src * data:; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+  <script src="components/loader.js"></script>
   <script src="lib/onsenui/js/onsenui.min.js"></script>
-    <link rel="stylesheet" href="components/loader.css">
-     <script src="components/loader.js"></script>
+
+  <link rel="stylesheet" href="components/loader.css">
   <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
   <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
   <link rel="stylesheet" href="css/style.css">
@@ -30,88 +31,53 @@
       }
   </script>
 
-  <script>
-    window.fn = {};
-    window.fn.open = function() {
-      var menu = document.getElementById('menu');
-      menu.open();
-    };
-    window.fn.load = function(page) {
-
-      //document.querySelector('#myNavigator').pushPage(page);
-       var content = document.getElementById('content');
-       var menu = document.getElementById('menu');
-       content.load(page)
-         .then(menu.close.bind(menu));
-  
-    };
-  </script>
 </head>
 <body>
-<ons-navigator id="myNavigator" page="splitter.html"> </ons-navigator>
+  <ons-navigator id="navigator" page="page-about.html"></ons-navigator>
 
-<ons-template id="splitter.html">
-<ons-splitter>
-  <ons-splitter-side id="menu" side="left" width="220px" collapse swipeable>
-    <ons-page>
-      <ons-list>
-        <ons-list-item onclick="fn.load('page-about.html')" tappable>
-          About
-        </ons-list-item>
-        <ons-list-item onclick="fn.load('page-face.html')" tappable>
-          Face
-        </ons-list-item>
-        <ons-list-item onclick="fn.load('page-shoulder.html')" tappable>
-          Shoulder
-        </ons-list-item>
-        <ons-list-item onclick="fn.load('page-feet.html')" tappable>
-          Feet
-        </ons-list-item>
-      </ons-list>
-    </ons-page>
-  </ons-splitter-side>
-  <ons-splitter-content id="content" page="tabbar.html"> </ons-splitter-content>
-</ons-splitter>
-    <ons-toolbar>
-      <div class="left">
-          <ons-toolbar-button onclick="fn.open()">
-            <ons-icon icon="md-menu"></ons-icon>
-          </ons-toolbar-button>
-      </div>
-      <div class="right" >
+  <ons-page id="home">
+    <div class="my-header">
+      <ons-toolbar>
+        <div class="left">
+        </div>
+        <div class="center">
+          Relaxation iBeacons
+        </div>
+        <div class="right" >
           <ons-toolbar-button id="toolbar-button" tappable cancelable onclick="showDialog('dialog-1')">Button</ons-toolbar-button>
-      </div>
-      <div class="center">Relaxation iBeacons</div>
-    </ons-toolbar>
-  </ons-template>
+        </div>
+      </ons-toolbar>
+    </div>
+    <h1 align="center">Exercise 2</h1>
 
-  <ons-template id="tabbar.html">
-   <div class="tabLabel">
-    <ons-tabbar id="tabbar" position="auto">
-      <ons-tab page="page-about.html" active>
-        <ons-icon icon="md-home"></ons-icon>
-        <span style="font-size: 14px">About</span>
-      </ons-tab>
-      <ons-tab page="page-feet.html">
-        <ons-icon icon="fa-paw"></ons-icon>
-        <span style="font-size: 13px">Feet</span>
-      </ons-tab>
-      <ons-tab page="page-shoulder.html">
-        <ons-icon icon="ion-ios-body"></ons-icon>
-        <span style="font-size: 13px">Shoulder</span>
-      </ons-tab>
-      <ons-tab page="page-face.html">
-        <ons-icon icon="ion-person"></ons-icon>
-        <span style="font-size: 13px">Face</span>
-      </ons-tab>
-    </ons-tabbar>
-  </div>
-</ons-template>
+    <div class="tabLabel">
+      <ons-tabbar position="auto">
+        <ons-tab page="page-about.html" active>
+          <ons-icon icon="md-home"></ons-icon>
+          <span style="font-size: 14px">About</span>
+        </ons-tab>
+        <ons-tab page="page-feet.html" icon="md-face">
+          <ons-icon icon="fa-paw"></ons-icon>
+          <span style="font-size: 13px">Feet</span>
+        </ons-tab>
+        <ons-tab page="page-shoulder.html" icon="cog">
+          <ons-icon icon="ion-ios-body"></ons-icon>
+          <span style="font-size: 13px">Shoulder</span>
+        </ons-tab>
+        <ons-tab page="page-face.html">
+          <ons-icon icon="ion-person"></ons-icon>
+          <span style="font-size: 13px">Face</span>
+        </ons-tab>
+      </ons-tabbar>
+    </div>
+  </ons-page>
 
-
-<ons-template id="page-about.html">
+  <ons-template id="page-about.html">
   <ons-page id="page-about">
     <div class="my-header">
+      <ons-toolbar>
+        <div class="center">Relaxation iBeacons</div>
+      </ons-toolbar>
       <img class="my-header-image" src="images/photo-default-unused.jpg"/>
     </div>
     <div id="about-content" class="my-content">
@@ -125,13 +91,15 @@
         Deodorant 3: Andreas
       </ul>
     </div>
-
   </ons-page> 
-</ons-template>
+  </ons-template>
 
-<ons-template id="page-feet.html">
+  <ons-template id="page-feet.html">
   <ons-page id="page-feet">
     <div class="my-header">
+      <ons-toolbar>
+        <div class="center">Relaxation iBeacons</div>
+      </ons-toolbar>
       <img class="my-header-image" src="images/photo-feet.jpg"/>
     </div>
     <div class="my-content">
@@ -158,6 +126,9 @@
   <ons-template id="page-shoulder.html">
   <ons-page id="page-shoulder">
     <div class="my-header">
+      <ons-toolbar>
+        <div class="center">Relaxation iBeacons</div>
+      </ons-toolbar>
       <img class="my-header-image" src="images/photo-shoulders-1.jpg"/>
     </div>
     <div class="my-content">
@@ -181,6 +152,9 @@
   <ons-template id="page-face.html">
   <ons-page id="page-face">
     <div class="my-header">
+      <ons-toolbar>
+        <div class="center">Relaxation iBeacons</div>
+      </ons-toolbar>
       <img class="my-header-image" src="images/photo-face.jpg"/>
     </div>
     <div class="my-content">
@@ -207,7 +181,7 @@
   </ons-page> 
   </ons-template>
 
-   <ons-dialog id="dialog-1">
+  <ons-dialog id="dialog-1">
     Ugg, this is a dialogue!!!
     <ons-button onclick="hideDialog('dialog-1')">Close</ons-button>
   </ons-dialog>

@@ -31,58 +31,17 @@
       }
   </script>
 
-  <script>
-    window.fn = {};
 
-    window.fn.open = function() {
-      var menu = document.getElementById('menu');
-      menu.open();
-    };
-
-    window.fn.load = function(page) {
-      var content = document.getElementById('content');
-      var menu = document.getElementById('menu');
-      content.load(page)
-        .then(menu.close.bind(menu));
-    };
-  </script>
 
 </head>
 <body>
   <ons-navigator id="navigator" page="page-about.html"></ons-navigator>
 
-<ons-splitter>
-  <ons-splitter-side id="menu" side="left" width="220px" split swipeable>
-    <ons-page>
-      <ons-list>
-        <ons-list-item onclick="fn.load('page-about.html')" tappable>
-          About
-        </ons-list-item>
-        <ons-list-item onclick="fn.load('page-feet.html')" tappable>
-          Feet
-        </ons-list-item>
-        <ons-list-item onclick="fn.load('page-shoulder.html')" tappable>
-          Shoulder
-        </ons-list-item>
-        <ons-list-item onclick="fn.load('page-face.html')" tappable>
-          Face
-        </ons-list-item>
-      </ons-list>
-    </ons-page>
-  </ons-splitter-side>
-  <ons-splitter-content id="content" page="page-about.html"></ons-splitter-content>
-</ons-splitter>
-
   <ons-page id="home">
     <div class="my-header">
       <ons-toolbar>
-
         <div class="left">
-          <ons-toolbar-button onclick="fn.open()">
-            <ons-icon icon="md-menu"></ons-icon>
-          </ons-toolbar-button>
         </div>
-
         <div class="center">
           Relaxation iBeacons
         </div>
