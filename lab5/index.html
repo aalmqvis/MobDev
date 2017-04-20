@@ -21,30 +21,28 @@
     // Redirect console.log to Evothings Workbench, so you can see data under 'Tools'
     if (window.hyper && window.hyper.log) { hyper.log = console.log }
     </script>
+
+    <script type="text/javascript" src="../smoothie/smoothie.js"></script>
+    <script type="text/javascript">
+      var carbon = [];
+      setInterval(function() {
+        carbon.push(5) // make it mSensors[2].data.c
+      }, 500);
+      
+      function createTimeline() {
+        var chart = new SmoothieChart();
+        chart.addTimeSeries(carbon, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 255, 0, 0.2)', lineWidth: 4 });
+        chart.streamTo(document.getElementById("chart"), 500);
+      }
+    </script>
 </head>
 
  
-
 <body>
 <script>
 
-// #########################################
-// original code
 
-// Create an empty sensor object as a global 
-var sensor = {};
-
-// Where the sensor data is stored
-var mSensorDataURL = 'http://backup.evothings.com:8082/output/';
-
-// A subscriber's key (Five other keys also availble at http://smartspaces.r1.kth.se:8082)
-sensor.key = "J3Wgj9qegGFX4r9KlxxGfaeMXQB";
-
-// A bitmap image describing where the sensor is located
-sensor.image = "https://evothings.com/demos/dome_pics/IMG_1758.JPG";
-// #########################################
-// Andreas' code
-window.alert("hello")
+//window.alert("hello")
 
 var mSensors = {
         1: {
@@ -52,51 +50,45 @@ var mSensors = {
             "floor":"upstairs", 
             "key":"BQa4EqqbgxfMgpBQ8XwNhvP82Dj",
             "image":"https://evothings.com/demos/dome_pics/IMG_1758.JPG",
-            "dataStreamURL":"http://smartspaces.r1.kth.se:8082/output/BQa4EqqbgxfMgpBQ8XwNhvP82Dj"},
+            "dataStreamURL":"http://smartspaces.r1.kth.se:8082/output/"},
         2: {
             "location":"Conference room",  
             "floor":"upstairs", 
             "key":"J3Wgj9qegGFX4r9KlxxGfaeMXQB",
             "image":"https://evothings.com/demos/dome_pics/IMG_1759.JPG",
-            "dataStreamURL":"http://smartspaces.r1.kth.se:8082/output/J3Wgj9qegGFX4r9KlxxGfaeMXQB"},
+            "dataStreamURL":"http://smartspaces.r1.kth.se:8082/output/"},
         3: {
             "location":"Conference room", 
             "floor":"downstairs",   
             "key":"lB6p49pzXdFGQjpLwzzOTWj10rd",
             "image":"https://evothings.com/demos/dome_pics/IMG_1762.JPG",
-            "dataStreamURL":"http://smartspaces.r1.kth.se:8082/output/lB6p49pzXdFGQjpLwzzOTWj10rd"},
+            "dataStreamURL":"http://smartspaces.r1.kth.se:8082/output/"},
         4: {
             "location":"Underneath the stairs",  
             "floor":"downstairs",   
             "key":"L4D98lO9ObtOdzx3PggKIaWmMGA",
             "image":"https://evothings.com/demos/dome_pics/IMG_1763.JPG",
-            "dataStreamURL":"http://smartspaces.r1.kth.se:8082/output/LAjQ9E8PBOiOdzx3PggKIaWmMGA"},
+            "dataStreamURL":"http://smartspaces.r1.kth.se:8082/output/"},
         5: {
             "location":"Entrance, conference room",  
             "floor":"downstairs",  
             "key":"LAjQ9E8PBOiOdzx3PggKIaWmMGA",
             "image":"https://evothings.com/demos/dome_pics/IMG_1761.JPG",
-            "dataStreamURL":"http://smartspaces.r1.kth.se:8082/output/L4D98lO9ObtOdzx3PggKIaWmMGA"},
+            "dataStreamURL":"http://smartspaces.r1.kth.se:8082/output/"},
         6: { 
             "location":"Entrance, conference room",  
             "floor":"upstairs",  
             "key":"BkPNOapq2WSMgpVlNQQKFYXPBWr",
             "image":"https://evothings.com/demos/dome_pics/IMG_1760.JPG",
-            "dataStreamURL":"http://smartspaces.r1.kth.se:8082/output/BkPNOapq2WSMgpVlNQQKFYXPBWr"}
+            "dataStreamURL":"http://smartspaces.r1.kth.se:8082/output/"}
     };
-
+/*
 setInterval(function(){
     console.log(mSensors[6].key); 
     console.log(mSensors[6].image); 
     },3000);
 
-console.log(mSensors[6].key); 
-console.log(mSensors[6].image); 
-//cordovaHTTP.get(
-//    mSensors[6].dataStreamURL + mSensors[6].key + + '.json?gt[timestamp]=now-1day&page=1)'
-
-// #########################################
-
+*/
 
 // Function to retrieve data, placing it in a "response" object
 function getJSON() 
@@ -105,17 +97,14 @@ function getJSON()
         {
             console.log('Using Apache Cordova HTTP GET function');
             cordovaHTTP.get(
-                mSensorDataURL + sensor.key + '.json?gt[timestamp]=now-1day&page=1',
-                //mSensors[6].dataStreamURL + mSensors[6].key + + '.json?gt[timestamp]=now-1day&page=1)',
+                mSensors[2].dataStreamURL + mSensors[2].key + '.json?gt[timestamp]=now-1day&page=1)',
 
                 function (response) 
                     {
                         if (response) 
                             {
-                                sensor.data = JSON.parse(response.data)[0];
-                                sensor.fullData = JSON.parse(response.data);
-                                //mSensors[6].data = JSON.parse(response.data)[0];
-                                //mSensors[6].fullData = JSON.parse(response.data);
+                                mSensors[2].data = JSON.parse(response.data)[0];
+                                mSensors[2].fullData = JSON.parse(response.data);
 
                                 printData();
                             }
@@ -129,8 +118,7 @@ function getJSON()
         {
             console.log('Not using Cordova, fallback to AJAX via jquery');
             $.ajax({
-                    url: mSensorDataURL + sensor.key + ".json?gt[timestamp]=now- 1day",
-                    //url: mSensors[6].dataStreamURL + mSensors[6].key + ".json?gt[timestamp]=now- 1day",
+                    url: mSensors[2].dataStreamURL + mSensors[2].key + ".json?gt[timestamp]=now- 1day",
                     jsonp: "callback",
                     cache: true,
                     dataType: "jsonp",
@@ -142,11 +130,8 @@ function getJSON()
                         {
                             if (response && response[0]) 
                                 {
-                                    sensor.data = response[0];
-                                    sensor.fullData = response;
-
-                                    //mSensors[6].data = response[0];
-                                    //mSensors[6].fullData = response;
+                                    mSensors[2].data = response[0];
+                                    mSensors[2].fullData = response;
 
                                     printData();
                                 }
@@ -155,45 +140,27 @@ function getJSON()
         }
 }
 
-// "mSensors[6]" replaced "sensor" 
 function printData()    
     {
-        if (sensor && sensor.data) 
-        //if (mSensors[6] && mSensors[6].data) 
+        if (mSensors[2] && mSensors[2].data) 
             {
             // Display the info.
-            html = '<h1>Sensor Data</h1>'
-                 + '<br /><div id="time">Time  ' + sensor.data.timestamp + '</div>'
-                 + '<div id="hum">Humidity ' + sensor.data.h + ' % (rel)</div>'
-                 + '<div id="temp">Temperature ' + sensor.data.t + ' celcius</div>'
-                 + '<img src="' + sensor.image + '" />'
-
-                 + '<br /><div id="time">Time  ' + sensor.data.timestamp + '</div>'
-                 + '<div id="hum">Humidity ' + sensor.data.h + ' % (rel)</div>'
-                 + '<div id="temp">Temperature ' + sensor.data.t + ' celcius</div>'
-                 + '<img src="' + sensor.image + '" />'  
-
-
-                // html = '<h1>Sensor Data</h1>'
-                //  + '<br /><div id="time">Time  ' + mSensors[6].data.timestamp + '</div>'
-                //  + '<div id="hum">Humidity ' + mSensors[6].data.h + ' % (rel)</div>'
-                //  + '<div id="temp">Temperature ' + mSensors[6].data.t + ' celcius</div>'
-                //  + '<img src="' + mSensors[6].image + '" />'
-
-                //  + '<br /><div id="time">Time  ' + mSensors[6].data.timestamp + '</div>'
-                //  + '<div id="hum">Humidity ' + mSensors[6].data.h + ' % (rel)</div>'
-                //  + '<div id="temp">Temperature ' + mSensors[6].data.t + ' celcius</div>'
-                //  + '<img src="' + mSensors[6].image + '" />'                 
+                html = '<h1>Sensor Data</h1>'
+                  + '<br /><div id="time">Time  ' + mSensors[2].data.timestamp + '</div>'
+                  + '<div id="hum">Humidity ' + mSensors[2].data.h + ' % (rel)</div>'
+                  + '<div id="temp">Temperature ' + mSensors[2].data.t + ' celcius</div>'
+                  + '<div id="temp">Pressure ' + mSensors[2].data.p + ' Pa</div>'
+                  + '<div id="temp">Carbon Dioxide ' + mSensors[2].data.c + ' ppm</div>'
+                  + '<div id="temp">Lumination ' + mSensors[2].data.l + ' Lux</div>'
+                  + '<div id="temp">No movement ' + mSensors[2].data.np + ' </div>'
+                  + '<div id="temp">Movement ' + mSensors[2].data.pp + ' </div>'
+                  + '<img src="' + mSensors[2].image + '" />'
             } 
     else 
             {
-                html = '<h1>Sensor Data</h1>'
-                 + '<br />Sorry, sensor data not available right now :(</br>'
-                 + '<img src="' + sensor.image + '" />'
-
-                // html = '<h1>Sensor Data</h1>'
-                //  + '<br />Sorry, sensor data not available right now :(</br>'
-                //  + '<img src="' + mSensors[6].image + '" />'                 
+                 html = '<h1>Sensor Data</h1>'
+                  + '<br />Sorry, sensor data not available right now :(</br>'
+                  + '<img src="' + mSensors[2].image + '" />'     
             }
     document.getElementById("printHere").innerHTML= html;
     }
@@ -203,6 +170,9 @@ function printData()
 
 <button onClick="getJSON();">Retrieve some sensor data</button>
 <div id="printHere"></div>
+
+<!-- Unload was in the body tag, just trying to put it here -->
+<canvas onload="createTimeline()"id="chart" width="400" height="100"></canvas> 
 
 
 </body>
