@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.css" />
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.js"></script>
+    <script type="text/javascript" src="../smoothie/smoothie.js"></script>
+
+
 
     <!-- This script, cordova.js,  is built into Evothings Viewer (i.e. you won't need to add this file to your project) The idea is to pick up a http resource, even if you're using https, which would normally create a cross-protocol violation. The HTTP plug-in from Apache Cordova allows this to be carried out, see especially this post: https://evothings.com/evothings-secured-now-serving-over-https/ -->
 
@@ -22,157 +25,20 @@
     if (window.hyper && window.hyper.log) { hyper.log = console.log }
     </script>
 
-    <script type="text/javascript" src="../smoothie/smoothie.js"></script>
-    <script type="text/javascript">
-      var carbon = [];
-      setInterval(function() {
-        carbon.push(5) // make it mSensors[2].data.c
-      }, 500);
-      
-      function createTimeline() {
-        var chart = new SmoothieChart();
-        chart.addTimeSeries(carbon, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 255, 0, 0.2)', lineWidth: 4 });
-        chart.streamTo(document.getElementById("chart"), 500);
-      }
-    </script>
+    <script src="app.js"></script>
+
 </head>
-
- 
 <body>
-<script>
+Very slow start up after button "Retrieve..." has been pushed..! BE PATIENT :) Probably this can be fixed somehow...?
+<button onclick="history.back()">Exit</button><br />
+<button onClick="retrieverTicker();">Retrieve some sensor data</button>
 
 
-//window.alert("hello")
+<!-- Plot -->
+<canvas id="chart" width="400" height="100"></canvas> 
 
-var mSensors = {
-        1: {
-            "location":"Whiteboard",
-            "floor":"upstairs", 
-            "key":"BQa4EqqbgxfMgpBQ8XwNhvP82Dj",
-            "image":"https://evothings.com/demos/dome_pics/IMG_1758.JPG",
-            "dataStreamURL":"http://smartspaces.r1.kth.se:8082/output/"},
-        2: {
-            "location":"Conference room",  
-            "floor":"upstairs", 
-            "key":"J3Wgj9qegGFX4r9KlxxGfaeMXQB",
-            "image":"https://evothings.com/demos/dome_pics/IMG_1759.JPG",
-            "dataStreamURL":"http://smartspaces.r1.kth.se:8082/output/"},
-        3: {
-            "location":"Conference room", 
-            "floor":"downstairs",   
-            "key":"lB6p49pzXdFGQjpLwzzOTWj10rd",
-            "image":"https://evothings.com/demos/dome_pics/IMG_1762.JPG",
-            "dataStreamURL":"http://smartspaces.r1.kth.se:8082/output/"},
-        4: {
-            "location":"Underneath the stairs",  
-            "floor":"downstairs",   
-            "key":"L4D98lO9ObtOdzx3PggKIaWmMGA",
-            "image":"https://evothings.com/demos/dome_pics/IMG_1763.JPG",
-            "dataStreamURL":"http://smartspaces.r1.kth.se:8082/output/"},
-        5: {
-            "location":"Entrance, conference room",  
-            "floor":"downstairs",  
-            "key":"LAjQ9E8PBOiOdzx3PggKIaWmMGA",
-            "image":"https://evothings.com/demos/dome_pics/IMG_1761.JPG",
-            "dataStreamURL":"http://smartspaces.r1.kth.se:8082/output/"},
-        6: { 
-            "location":"Entrance, conference room",  
-            "floor":"upstairs",  
-            "key":"BkPNOapq2WSMgpVlNQQKFYXPBWr",
-            "image":"https://evothings.com/demos/dome_pics/IMG_1760.JPG",
-            "dataStreamURL":"http://smartspaces.r1.kth.se:8082/output/"}
-    };
-/*
-setInterval(function(){
-    console.log(mSensors[6].key); 
-    console.log(mSensors[6].image); 
-    },3000);
-
-*/
-
-// Function to retrieve data, placing it in a "response" object
-function getJSON() 
-    {
-    if (window.cordova) 
-        {
-            console.log('Using Apache Cordova HTTP GET function');
-            cordovaHTTP.get(
-                mSensors[2].dataStreamURL + mSensors[2].key + '.json?gt[timestamp]=now-1day&page=1)',
-
-                function (response) 
-                    {
-                        if (response) 
-                            {
-                                mSensors[2].data = JSON.parse(response.data)[0];
-                                mSensors[2].fullData = JSON.parse(response.data);
-
-                                printData();
-                            }
-                    },
-                function (error) 
-                    {
-                    console.log(JSON.stringify(error));
-                    });
-        }    
-    else 
-        {
-            console.log('Not using Cordova, fallback to AJAX via jquery');
-            $.ajax({
-                    url: mSensors[2].dataStreamURL + mSensors[2].key + ".json?gt[timestamp]=now- 1day",
-                    jsonp: "callback",
-                    cache: true,
-                    dataType: "jsonp",
-                    data: 
-                        {
-                            page: 1
-                        },
-                    success: function(response) 
-                        {
-                            if (response && response[0]) 
-                                {
-                                    mSensors[2].data = response[0];
-                                    mSensors[2].fullData = response;
-
-                                    printData();
-                                }
-                        }
-                });
-        }
-}
-
-function printData()    
-    {
-        if (mSensors[2] && mSensors[2].data) 
-            {
-            // Display the info.
-                html = '<h1>Sensor Data</h1>'
-                  + '<br /><div id="time">Time  ' + mSensors[2].data.timestamp + '</div>'
-                  + '<div id="hum">Humidity ' + mSensors[2].data.h + ' % (rel)</div>'
-                  + '<div id="temp">Temperature ' + mSensors[2].data.t + ' celcius</div>'
-                  + '<div id="temp">Pressure ' + mSensors[2].data.p + ' Pa</div>'
-                  + '<div id="temp">Carbon Dioxide ' + mSensors[2].data.c + ' ppm</div>'
-                  + '<div id="temp">Lumination ' + mSensors[2].data.l + ' Lux</div>'
-                  + '<div id="temp">No movement ' + mSensors[2].data.np + ' </div>'
-                  + '<div id="temp">Movement ' + mSensors[2].data.pp + ' </div>'
-                  + '<img src="' + mSensors[2].image + '" />'
-            } 
-    else 
-            {
-                 html = '<h1>Sensor Data</h1>'
-                  + '<br />Sorry, sensor data not available right now :(</br>'
-                  + '<img src="' + mSensors[2].image + '" />'     
-            }
-    document.getElementById("printHere").innerHTML= html;
-    }
-
-
-</script><button onclick="history.back()">Exit</button><br />
-
-<button onClick="getJSON();">Retrieve some sensor data</button>
+<!-- Print area -->
 <div id="printHere"></div>
-
-<!-- Unload was in the body tag, just trying to put it here -->
-<canvas onload="createTimeline()"id="chart" width="400" height="100"></canvas> 
 
 
 </body>
