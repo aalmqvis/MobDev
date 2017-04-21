@@ -101,8 +101,17 @@ function getJSON(line, chartForLine)
                                 {
                                     mSensors[2].data = response[0];
                                     mSensors[2].fullData = response;
+                                    console.log(mSensors[2].fullData[0].c);
+                                    // To do: add every value of full data in the array line1
+                                    // and then increment it for every new value
+                                    var hours = new Date().getHours();
+                                    var minutes = new Date().getMinutes();
+                                    var seconds = new Date().getSeconds();
+                                    //console.log(hours+":"+minutes+":"+seconds);
+                                    var tid = (hours+":"+minutes+":"+seconds);
                                     printData();
                                     updateChart(line,chartForLine,mSensors[2]);
+                                    //updateChartUpToSpeed(line,chartForLine,mSensors[2].fullData,tid);
                                 }
                         }
                 });
@@ -148,18 +157,34 @@ function createChart() {
 									// grid:{millisPerLine:6000},
     								});
     // Create line to later put in chart
-    var line1 = new TimeSeries();
+    var line = new TimeSeries();
 
-    chart.addTimeSeries(line1, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 255, 0, 0.2)', lineWidth: 4 }); 
+    chart.addTimeSeries(line, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 255, 0, 0.2)', lineWidth: 4 }); 
     chart.streamTo(document.getElementById("chart"), 3000);
 
-    return {createdLine: line1, createdChart: chart};
+    return {createdLine: line, createdChart: chart};
 }
 
 function updateChart(line,chartForLine,mSensor2) {
 	var line = line; 
 	var chart = chartForLine;
 	var mSensor = mSensor2;  
+    line.append(new Date().getTime(), mSensor.data.h); 
+    chart.addTimeSeries(line, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 255, 0, 0.2)', lineWidth: 4 }); 
+        
+}
+
+
+// Adding fulldata to the chart
+function updateChartUpToSpeed(line,chartForLine,mSensor2, fullData) {
+    var line = line; 
+    var chart = chartForLine;
+    var mSensor = mSensor2;  
+    var mSensorFullData = fullData;
+
+    for (i = 0; i < mSensorFullData.length.h; i++){
+        line.append(mSensorFullData.timestamp);
+    }
     line.append(new Date().getTime(), mSensor.data.h); 
     chart.addTimeSeries(line, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 255, 0, 0.2)', lineWidth: 4 }); 
         
