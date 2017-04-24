@@ -6,8 +6,8 @@
 		initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
 
 	<title>EMQTT Painter</title>
-
-	<style>
+	<link rel="stylesheet" type="text/css" href="ui/css/style.css">
+<!--	<style>
 		@import 'ui/css/evothings-app.css';
 		body
 		{
@@ -23,8 +23,7 @@
 				height:100%;
 		}
 	</style>
-
-	<script>
+-->	<script>
 	// Redirect console.log to Evothings Workbench.
 	if (window.hyper && window.hyper.log) { console.log = hyper.log }
 	</script>
@@ -35,20 +34,71 @@
 </head>
 
 <body ontouchstart=""><!-- ontouchstart="" enables low-delay CSS transitions. -->
-	<header>
+<!--	<header>
 		<button class="back" onclick="history.back()">
 			<img src="ui/images/arrow-left.svg">
 		</button>
 		<img class="logotype" src="ui/images/logo.svg" alt="Evothings">
 	</header>
+-->
 
-	<h1>MQTT Painter</h1>
+	<h1>WoT-</h1>
 
 	<p>
 		<span id="info">Not Connected</span>
-		<button id="connect" onclick="app.setupConnection();">Reconnect</button>
+		<button id="connect" onclick="app.setup	Connection();">Reconnect</button>
 	</p>
 
+	
+	<div id="login">
+			<input type="text" id="userName" value="Nickname">
+			<button class="sendBtn" onclick="userNameChosen()">Create</button>
+	</div>
+
+
+
+	<div id ="chatbox">
+		<div class="chatlogs">
+			<div class ="chat self">
+				<p class="chat-message">Sample message! :)</p>
+			</div>
+			<div class="chat other">
+				<p class="chat-message">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+			</div>
+
+			<div class="chat other">
+				<p class="chat-message">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+			</div>
+
+			<div class ="chat self">
+				<p class="chat-message">Sample message! :)</p>
+			</div>
+			<div class="chat other">
+				<p class="chat-message">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+			</div>
+		</div>
+		<div class="chat-form">
+			<textarea id="msgText"></textarea>
+			<button class="sendBtn">Send</button>
+		</div>
+	</div>
+
+	<script> 
+		document.getElementById("chatbox").style.visibility = "hidden";
+		function userNameChosen(){
+			var name = document.getElementById("userName").value;
+			if(name == "Nickname"){
+				//do nothing
+			}else{
+				app.initialize(name);
+				document.getElementById("login").style.display = "none";
+				document.getElementById("chatbox").style.visibility = "visible";
+
+			}
+		}
+
+	</script>
+<!--
 	<div class="dummy"></div>
 	<div class="canvas-container"><canvas id="canvas" style="margin: 0px;"></canvas></div>
 
@@ -66,7 +116,7 @@
 			}
 		};
 	</script>
-
+-->
 	<script src="libs/mqttws/mqttws.js"></script>
 	</body>
 </html>
