@@ -12,8 +12,31 @@ var password = 'ymous';
 
 app.connected = false;
 app.ready = false;
+app.uuid;
 
-// Simple function to generate a color from the device UUID
+
+app.initialize = function(name){
+	console.log("initalize running");
+	app.uuid = name + "-" + Math.random().toString(36).slice(2);
+	console.log("User id: " + app.uuid);
+	app.onReady();
+
+}
+
+app.onReady = function() {
+	console.log("Running onReady");
+	if (!app.ready) {
+		//app.color = app.generateColor(device.uuid); // Generate  our own color from UUID
+		app.pubTopic = '/msg/' + app.uuid + '/evt'; // We publish to our own device topic
+		app.subTopic = '/msg/+/evt'; // We subscribe to all devices using "+" wildcard
+		//app.setupCanvas();
+		app.setupConnection();
+		app.ready = true;
+	}
+}
+
+// Simple function to generate a color from the device UUI
+/*
 app.generateColor = function(uuid) {
 	var code = parseInt(uuid.split('-')[0], 16)
 	var blue = (code >> 16) & 31;
@@ -31,7 +54,7 @@ app.initialize = function() {
 
 app.onReady = function() {
 	if (!app.ready) {
-		app.color = app.generateColor(device.uuid); // Generate our own color from UUID
+		app.color = app.generateColor(device.uuid); // Generate  our own color from UUID
 		app.pubTopic = '/paint/' + device.uuid + '/evt'; // We publish to our own device topic
 		app.subTopic = '/paint/+/evt'; // We subscribe to all devices using "+" wildcard
 		app.setupCanvas();
@@ -81,10 +104,12 @@ app.setupCanvas = function() {
 		app.pos = {x:x, y:y};
 	});
 }
+*/
 
-app.setupConnection = function() {
-  app.status("Connecting to " + host + ":" + port + " as " + device.uuid);
-	app.client = new Paho.MQTT.Client(host, port, device.uuid);
+
+app.setupConnection = function(name) {
+  	app.status("Connecting to " + host + ":" + port + " as " + app.uuid);
+	app.client = new Paho.MQTT.Client(host, port, app.uuid);
 	app.client.onConnectionLost = app.onConnectionLost;
 	app.client.onMessageArrived = app.onMessageArrived;
 	var options = {
@@ -142,4 +167,4 @@ app.status = function(s) {
 	info.innerHTML = s;
 }
 
-app.initialize();
+//app.initialize();
