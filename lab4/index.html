@@ -41,45 +41,28 @@
 		<img class="logotype" src="ui/images/logo.svg" alt="Evothings">
 	</header>
 -->
-
-	<h1>WoT-</h1>
-
-	<p>
-		<span id="info">Not Connected</span>
-		<button id="connect" onclick="app.setup	Connection();">Reconnect</button>
-	</p>
-
+	<h1>WoT</h1>
+	<center>
+	<span id="info">Not Connected</span>
+	</center>
 	
 	<div id="login">
-			<input type="text" id="userName" value="Nickname">
-			<button class="sendBtn" onclick="userNameChosen()">Create</button>
+			<input type="text" id="willText" value="" placeholder="Last will message">
+			<input type="text" id="userName" value="" placeholder="Nickname">
+			<button class="sendBtn" onclick="userNameChosen()">Connect</button>
+			
 	</div>
 
+	<!--<div id ="usersOnline">
 
+	</div>-->
 
 	<div id ="chatbox">
-		<div class="chatlogs">
-			<div class ="chat self">
-				<p class="chat-message">Sample message! :)</p>
-			</div>
-			<div class="chat other">
-				<p class="chat-message">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-			</div>
-
-			<div class="chat other">
-				<p class="chat-message">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-			</div>
-
-			<div class ="chat self">
-				<p class="chat-message">Sample message! :)</p>
-			</div>
-			<div class="chat other">
-				<p class="chat-message">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-			</div>
+		<div id="chatlogs">	
 		</div>
 		<div class="chat-form">
 			<textarea id="msgText"></textarea>
-			<button class="sendBtn">Send</button>
+			<button class="sendBtn" id="msgButton">Send</button>
 		</div>
 	</div>
 
@@ -87,7 +70,7 @@
 		document.getElementById("chatbox").style.visibility = "hidden";
 		function userNameChosen(){
 			var name = document.getElementById("userName").value;
-			if(name == "Nickname"){
+			if(name == ""){
 				//do nothing
 			}else{
 				app.initialize(name);
