@@ -5,21 +5,25 @@
 //Object that holds application data and functions.
 var app = {};
 
-var host = 'vernemq.evothings.com';
-var port = 8084;
+var host = 'broker.mqttdashboard.com';
+var port = 8000;
 var user = 'anon';
 var password = 'ymous';
 
 app.connected = false;
 app.ready = false;
 app.uuid;
+app.userName;
 
 
 app.initialize = function(name){
 	console.log("initalize running");
+	app.userName = name;
 	app.uuid = name + "-" + Math.random().toString(36).slice(2);
 	console.log("User id: " + app.uuid);
 	app.onReady();
+
+
 
 }
 
@@ -27,14 +31,30 @@ app.onReady = function() {
 	console.log("Running onReady");
 	if (!app.ready) {
 		//app.color = app.generateColor(device.uuid); // Generate  our own color from UUID
-		app.pubTopic = '/msg/' + app.uuid + '/evt'; // We publish to our own device topic
-		app.subTopic = '/msg/+/evt'; // We subscribe to all devices using "+" wildcard
-		//app.setupCanvas();
+		app.pubTopic = 'appication/msg3/' + app.uuid; // We publish to our own device topic
+		app.subTopic = 'appication/msg3/+'; // We subscribe to all devices using "+" wildcard
+		app.setUpChat();
 		app.setupConnection();
 		app.ready = true;
+
+
+
 	}
 }
 
+app.setUpChat = function(){
+	//Send a retian message to notify new subscribier 
+	var msg = "";
+	var sendButton = document.getElementById("msgButton");
+	sendButton.addEventListener("click", function(){
+		msg = document.getElementById("msgText").value;
+		if(msg != ""){
+			var finalMsg = JSON.stringify({from: app.userName, message: msg});
+			app.publish(finalMsg);
+			document.getElementById("msgText").value = "";
+		}
+	});
+}
 // Simple function to generate a color from the device UUI
 /*
 app.generateColor = function(uuid) {
@@ -107,23 +127,43 @@ app.setupCanvas = function() {
 */
 
 
-app.setupConnection = function(name) {
-  	app.status("Connecting to " + host + ":" + port + " as " + app.uuid);
+
+app.setupConnection = function() {
+	var willMsg = document.getElementById("willText").value;
+
+	
+	app.status("Connecting to " + host + ":" + port + " as " + app.uuid);
 	app.client = new Paho.MQTT.Client(host, port, app.uuid);
 	app.client.onConnectionLost = app.onConnectionLost;
 	app.client.onMessageArrived = app.onMessageArrived;
-	var options = {
-    useSSL: true,
-    onSuccess: app.onConnect,
-    onFailure: app.onConnectFailure
-  }
+	console.log(app.client);
+	if(willMsg == ""){
+		willMsg = app.userName + " disconnected!";
+		
+	}
+	console.log(willMsg);
+		var finalWill = new Paho.MQTT.Message(JSON.stringify({from: app.userName, message: willMsg}));
+		finalWill.destinationName = app.pubTopic;
+		var options = {
+		  	useSSL: false,
+		    onSuccess: app.onConnect,
+		    onFailure: app.onConnectFailure,
+		    willMessage: finalWill
+		}
 	app.client.connect(options);
 }
 
-app.publish = function(json) {
-	message = new Paho.MQTT.Message(json);
-	message.destinationName = app.pubTopic;
-	app.client.send(message);
+app.retainPublish = function(message) {
+	pubMessage = new Paho.MQTT.Message(message);
+	pubMessage.destinationName = app.pubTopic;
+	pubMessage.retained = true;
+	app.client.send(pubMessage);
+};
+
+app.publish = function(message) {
+	pubMessage = new Paho.MQTT.Message(message);
+	pubMessage.destinationName = app.pubTopic;
+	app.client.send(pubMessage);
 };
 
 app.subscribe = function() {
@@ -138,17 +178,28 @@ app.unsubscribe = function() {
 
 app.onMessageArrived = function(message) {
 	var o = JSON.parse(message.payloadString);
-	app.ctx.beginPath();
-	app.ctx.moveTo(o.from.x, o.from.y);
-	app.ctx.lineTo(o.to.x, o.to.y);
-	app.ctx.strokeStyle = o.color;
-	app.ctx.stroke();
+	console.log(o);
+	var chatLogs = document.getElementById("chatlogs");
+	var obj = document.createElement('div');
+
+	// obj.innerHTML = '<p class="chat-message">' + o.message + '</p>';
+	if(app.userName == o.from){
+		obj.className = "chat self";
+	}else{
+		obj.className = "chat other";
+		obj.innerHTML += '<p id="msg_sender">' + o.from + '</p>'; 
+	}
+
+	obj.innerHTML += '<p class="chat-message">' + o.message + '</p>';
+	chatLogs.appendChild(obj);
 }
 
 app.onConnect = function(context) {
 	app.subscribe();
 	app.status("Connected!");
 	app.connected = true;
+	//var retainMsg = JSON.stringify({from: app.userName, message: app.userName + " is conencted"});;
+	//app.retainPublish(retainMsg);
 }
 
 app.onConnectFailure = function(e){
@@ -156,6 +207,7 @@ app.onConnectFailure = function(e){
 }
 
 app.onConnectionLost = function(responseObject) {
+	//app.retainPublish(new Byte[0]);
 	app.status("Connection lost!");
 	console.log("Connection lost: "+responseObject.errorMessage);
 	app.connected = false;
