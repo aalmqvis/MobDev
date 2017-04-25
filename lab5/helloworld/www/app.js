@@ -1,5 +1,6 @@
     // JavaScript code
 
+var stufftoKeeptrackof;
 
 var mSensors = {
         1: {
@@ -45,18 +46,18 @@ var mSensors = {
 
     };
 
-function retrieverTicker(sensorKey, latestDataQuery, fullDataQuery) {
+function retrieverTicker(sensorKey, latestDataQuery, fullDataQuery, dataCarbon, dataMovement, dataTemperature, chartCarbon, chartMovement, chartTemperature, optionsCarbon, optionsMovement, optionsTemperature) {
     //console.log("Very slow start up! BE PATIENT :) Probably this can be fixed somehow...?");
     if (fullDataQuery == true) {
-        console.log("Sensor number " +sensorKey+" called. Get fullData from it!");
+        console.log("Sensor number " +sensorKey+" called. Getting fullData from it!");
         getJSONFullData(sensorKey);
     }    
     if (latestDataQuery == true) {
 
         setInterval( function(){
-            getJSONLatestData(sensorKey); 
-        }, 1000);  // change to once every 30 sec 
-        getJSONLatestData(sensorKey); 
+            getJSONLatestData(sensorKey, dataCarbon, dataMovement, dataTemperature, chartCarbon, chartMovement, chartTemperature, optionsCarbon, optionsMovement, optionsTemperature); 
+        }, 3000);  // change to once every 30 sec 
+        getJSONLatestData(sensorKey, dataCarbon, dataMovement, dataTemperature, chartCarbon, chartMovement, chartTemperature, optionsCarbon, optionsMovement, optionsTemperature); 
     }
 }
 
@@ -79,7 +80,7 @@ function getJSONFullData(sensorKey)
                                 //     printData(sensorKey)
                                 // }
                                 mSensors[sensorKey].fullData = JSON.parse(response.data);
-                                printFullData(mSensors[sensorKey]);
+                                printFullData(mSensors[sensorKey], sensorKey);
                                 //printData(sensorKey);
                                 //console.log("Fulldata received for sensor: " +sensorKey);
                             }
@@ -122,7 +123,7 @@ function getJSONFullData(sensorKey)
         }
 }
 
-function getJSONLatestData(sensorKey) 
+function getJSONLatestData(sensorKey, dataCarbon, dataMovement, dataTemperature, chartCarbon, chartMovement, chartTemperature, optionsCarbon, optionsMovement, optionsTemperature) 
     {
     if (window.cordova) 
         {
@@ -134,8 +135,8 @@ function getJSONLatestData(sensorKey)
                         if (response) 
                             {
                                 mSensors[sensorKey].data = JSON.parse(response.data)[0];
-                                console.log("latestData received for sensor: " +sensorKey);
-                                sendHomepageData(sensorKey, mSensors[sensorKey]);
+                                //console.log("latestData received for sensor: " +sensorKey);
+                                sendHomepageData(sensorKey, mSensors[sensorKey], dataCarbon, dataMovement, dataTemperature, chartCarbon, chartMovement, chartTemperature, optionsCarbon, optionsMovement, optionsTemperature);
                                 printData(sensorKey);
                             }
                     },
@@ -163,13 +164,11 @@ function getJSONLatestData(sensorKey)
 
                                     if (sensorKey)
                                     mSensors[sensorKey].data = response[0];
-                                    console.log("latestData received for sensor: " +sensorKey);
+                                    //console.log("latestData received for sensor: " +sensorKey);
                                     //mSensors[sensorKey].fullData = response;
-                                    //var str = mSensors[sensorKey].fullData[0].timestamp;
-                                    //console.log(str.substring(12,str.length-5)); //mSensors[2].fullData);
-                                    //console.log(str)
+                                    
  
-                                    sendHomepageData(sensorKey, mSensors[sensorKey]);
+                                    sendHomepageData(sensorKey, mSensors[sensorKey], dataCarbon, dataMovement, dataTemperature, chartCarbon, chartMovement, chartTemperature, optionsCarbon, optionsMovement, optionsTemperature);
                                     printData(sensorKey);
 
                                 }
@@ -184,10 +183,6 @@ function getJSONLatestData(sensorKey)
 }
 
 function createHomepageVisuals() {
-    // create real time charts
-    // gauges?
-    console.log("check")
-
     var dataCarbon = google.visualization.arrayToDataTable([
       ['Label', 'Value'],
       ['Entrance', 0],
@@ -195,14 +190,14 @@ function createHomepageVisuals() {
       ['Downstairs', 0]
     ]);
 
-var dataMovement = google.visualization.arrayToDataTable([
+    var dataMovement = google.visualization.arrayToDataTable([
       ['Label', 'Value'],
       ['Entrance', 0],
       ['Upstairs', 0],
       ['Downstairs', 0]
     ]);
 
-var dataTemperature = google.visualization.arrayToDataTable([
+    var dataTemperature = google.visualization.arrayToDataTable([
       ['Label', 'Value'],
       ['Entrance', 0],
       ['Upstairs', 0],
@@ -228,8 +223,6 @@ var dataTemperature = google.visualization.arrayToDataTable([
       minorTicks: 20, max: 35
     };
 
-    
-
     var chartCarbon = new google.visualization.Gauge(document.getElementById('chartHomeCarbon'));
     var chartMovement = new google.visualization.Gauge(document.getElementById('chartHomeMovement'));
     var chartTemperature = new google.visualization.Gauge(document.getElementById('chartHomeTemperature'));
@@ -237,9 +230,14 @@ var dataTemperature = google.visualization.arrayToDataTable([
     chartCarbon.draw(dataCarbon, optionsCarbon);
     chartMovement.draw(dataMovement, optionsMovement);
     chartTemperature.draw(dataTemperature, optionsTemperature);
+
+    retrieverTicker(2, true, false, dataCarbon, dataMovement, dataTemperature, chartCarbon, chartMovement, chartTemperature, optionsCarbon, optionsMovement, optionsTemperature);
+    retrieverTicker(3, true, false, dataCarbon, dataMovement, dataTemperature, chartCarbon, chartMovement, chartTemperature, optionsCarbon, optionsMovement, optionsTemperature);
+    retrieverTicker(6, true, false, dataCarbon, dataMovement, dataTemperature, chartCarbon, chartMovement, chartTemperature, optionsCarbon, optionsMovement, optionsTemperature);
+
 }
 
-function sendHomepageData(sensorKey, mSensors) {
+function sendHomepageData(sensorKey, mSensors, dataCarbon, dataMovement, dataTemperature, chartCarbon, chartMovement, chartTemperature, optionsCarbon, optionsMovement, optionsTemperature) {
     // send latest data of 2,3 and 6 to charts
     // How do I send the right data to the right gauge?
 
@@ -249,20 +247,39 @@ function sendHomepageData(sensorKey, mSensors) {
     // Could use smoothie or https://developers.google.com/chart/interactive/docs/gallery/linechart
     // Done?
 
-    console.log(mSensors.homeChartName);
-    mSensors.loc
+    //console.log("sendHomepageData successfull" + mSensors.homeChartName);
 
-    dataTemperature.Label.mSensors.loc
+    // sensorKey 6 is entrance sensor, 2 upstairs , 3 downstairs
+    // chart number 0 is entrance ,  1 is upstairs , 2 is downstairs
+    if (sensorKey == 6) {
+        // Set chart value
+        dataCarbon.setValue(0, 1, mSensors.data.c);
+        dataMovement.setValue(0, 1, mSensors.data.pp);
+        dataTemperature.setValue(0, 1, mSensors.data.t);
 
-    chartCarbon
-    chartMovement
-    chartTemperature
+        // Draw new chart
+        chartCarbon.draw(dataCarbon, optionsCarbon);
+        chartMovement.draw(dataMovement, optionsMovement);
+        chartTemperature.draw(dataTemperature, optionsTemperature);
+    }
+    if (sensorKey == 2) {
+        dataCarbon.setValue(1, 1, mSensors.data.c);   
+        dataMovement.setValue(1, 1, mSensors.data.pp);
+        dataTemperature.setValue(1, 1, mSensors.data.t);
 
-    mSensors.homeChartName.setValue(0, 1, mSensors.data.c);
-    mSensors.homeChartName.setValue(1, 1, mSensors.data.pp);
-    mSensors.homeChartName.setValue(2, 1, mSensors.data.t);
+        chartCarbon.draw(dataCarbon, optionsCarbon);
+        chartMovement.draw(dataMovement, optionsMovement);
+        chartTemperature.draw(dataTemperature, optionsTemperature);
+    }
+    if (sensorKey == 3) {
+        dataCarbon.setValue(2, 1, mSensors.data.c);
+        dataMovement.setValue(2, 1, mSensors.data.pp);
+        dataTemperature.setValue(2, 1, mSensors.data.t);
 
-    mSensors.homeChartData.draw(data, options);
+        chartCarbon.draw(dataCarbon, optionsCarbon);
+        chartMovement.draw(dataMovement, optionsMovement);
+        chartTemperature.draw(dataTemperature, optionsTemperature);
+    }
 }
 
 function printData(sensorKey)    
@@ -294,41 +311,76 @@ function printData(sensorKey)
     document.getElementById("printFor"+mSensors[sensorKey].location).innerHTML= html;
     }
 
-function drawChart() {
-    var data = google.visualization.arrayToDataTable([
-      ['Label', 'Value'],
-      ['Memory', 80],
-      ['CPU', 55],
-      ['Network', 68]
-    ]);
+// function drawChart() {
+//     var data = google.visualization.arrayToDataTable([
+//       ['Label', 'Value'],
+//       ['Memory', 80],
+//       ['CPU', 55],
+//       ['Network', 68]
+//     ]);
 
-    var options = {
-      width: 400, height: 120,
-      redFrom: 90, redTo: 100,
-      yellowFrom:75, yellowTo: 90,
-      minorTicks: 5
-    };
+//     var options = {
+//       width: 400, height: 120,
+//       redFrom: 90, redTo: 100,
+//       yellowFrom:75, yellowTo: 90,
+//       minorTicks: 5
+//     };
 
-    var chart = new google.visualization.Gauge(document.getElementById('chartHome'));
+//     var chart = new google.visualization.Gauge(document.getElementById('chartHome'));
 
-    chart.draw(data, options);
+//     chart.draw(data, options);
 
-    setInterval(function() {
-      data.setValue(0, 1, 40 + Math.round(60 * Math.random()));
-      chart.draw(data, options);
-    }, 13000);
-    setInterval(function() {
-      data.setValue(1, 1, 40 + Math.round(60 * Math.random()));
-      chart.draw(data, options);
-    }, 5000);
-    setInterval(function() {
-      data.setValue(2, 1, 60 + Math.round(20 * Math.random()));
-      chart.draw(data, options);
-    }, 26000);
-}
+//     setInterval(function() {
+//       data.setValue(0, 1, 40 + Math.round(60 * Math.random()));
+//       chart.draw(data, options);
+//     }, 13000);
+//     setInterval(function() {
+//       data.setValue(1, 1, 40 + Math.round(60 * Math.random()));
+//       chart.draw(data, options);
+//     }, 5000);
+//     setInterval(function() {
+//       data.setValue(2, 1, 60 + Math.round(20 * Math.random()));
+//       chart.draw(data, options);
+//     }, 26000);
+// }
 
-function printFullData(mSensor,sensorKey) {
+function printFullData(sensorwithdata,sensorKey) {
     console.log("Full data recieved from sensor number: " +sensorKey +".");
+
+    // 1. access mSensor.fullData and get it to the data format we need to add it to a chart
+    // 2. Draw that chart
+    // 3. Update that chart with latest data
+
+    stufftoKeeptrackof =sensorwithdata;
+    // fullDataLength is the number of values to add in the chart
+    var fullDataLength = Object.keys(sensorwithdata.fullData).length;
+
+ 
+
+    var fullDataTable = new google.visualization.DataTable();
+    fullDataTable.addColumn('number', 'index');
+    fullDataTable.addColumn('number', 'value');
+    fullDataTable.addRows(fullDataLength);
+
+    for (i = 0; i < fullDataLength; i++) {
+        // append this thing to an array
+        fullDataTable.setCell(i, 0, i); 
+        fullDataTable.setCell(i, 1, sensorwithdata.fullData[i].c); 
+    }
+
+    // specify location
+    //var table = new google.visualization.Table(document.getElementById("chartFullDataEntrance"));
+    var chartentr = new google.visualization.LineChart(document.getElementById('chartFullDataEntrance'));
+
+    chartentr.draw(fullDataTable, {showRowNumber: true, width: '100%', height: '100%'});
+    //console.log(fullDataTable);
+
+    //console.log(Object.keys(mSensors.fullData[1]["c"] ));
+    
+    //var str = mSensors.fullData[1];  //.timestamp;
+    //onsole.log(str.substring(12,str.length-5)); //mSensors[2].fullData);
+    //console.log(str)
+
 }
 
 
