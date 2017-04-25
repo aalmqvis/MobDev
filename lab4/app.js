@@ -181,13 +181,16 @@ app.onMessageArrived = function(message) {
 	console.log(o);
 	var chatLogs = document.getElementById("chatlogs");
 	var obj = document.createElement('div');
+
+	// obj.innerHTML = '<p class="chat-message">' + o.message + '</p>';
 	if(app.userName == o.from){
 		obj.className = "chat self";
 	}else{
 		obj.className = "chat other";
+		obj.innerHTML += '<p id="msg_sender">' + o.from + '</p>'; 
 	}
 
-	obj.innerHTML = '<p class="chat-message">' + o.message + '</p>';
+	obj.innerHTML += '<p class="chat-message">' + o.message + '</p>';
 	chatLogs.appendChild(obj);
 }
 
