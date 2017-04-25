@@ -1,12 +1,18 @@
     // JavaScript code
 
 var stufftoKeeptrackof;
+var fullDataTableCarbon;
+var fullDataTableMovement;
+var fullDataTableTemp;
+var fullDataRetrieved = false;
+//backup.evothings.com:8080
 
 var mSensors = {
         1: {
             "location":"Whiteboard, upstairs",
             "key":"BQa4EqqbgxfMgpBQ8XwNhvP82Dj",
             "image":"https://evothings.com/demos/dome_pics/IMG_1758.JPG",
+            //"dataStreamURL":"http://backup.evothings.com:8080/output/"},
             "dataStreamURL":"http://smartspaces.r1.kth.se:8082/output/"},
             //"homeChartName":"chartWhiteboard",
         2: {
@@ -14,16 +20,20 @@ var mSensors = {
             "loc":"Upstairs", 
             "key":"J3Wgj9qegGFX4r9KlxxGfaeMXQB",
             "image":"https://evothings.com/demos/dome_pics/IMG_1759.JPG",
+            //"dataStreamURL":"http://backup.evothings.com:8080/output/",
             "dataStreamURL":"http://smartspaces.r1.kth.se:8082/output/",
             "homeChartData":"dataUpstairs",
+            "chartFullData":"chartFullDataUpstairs",
             "homeChartName":"chartUpstairs"},
         3: {
             "location":"Conference room, downstairs", 
             "loc":"Downstairs", 
             "key":"lB6p49pzXdFGQjpLwzzOTWj10rd",
             "image":"https://evothings.com/demos/dome_pics/IMG_1762.JPG",
+            //"dataStreamURL":"http://backup.evothings.com:8080/output/",
             "dataStreamURL":"http://smartspaces.r1.kth.se:8082/output/",
             "homeChartData":"dataDownstairs",
+            "chartFullData":"chartFullDataDownstairs",
             "homeChartName":"chartDownstairs"},
         4: {
             "location":"Underneath the stairs, downstairs",  
@@ -41,7 +51,9 @@ var mSensors = {
             "key":"BkPNOapq2WSMgpVlNQQKFYXPBWr",
             "image":"https://evothings.com/demos/dome_pics/IMG_1760.JPG",
             "dataStreamURL":"http://smartspaces.r1.kth.se:8082/output/",
+            //"dataStreamURL":"http://backup.evothings.com:8080/output/",
             "homeChartData":"dataEntrance",
+            "chartFullData":"chartFullDataEntrance",
             "homeChartName":"chartEntrance"},
 
     };
@@ -56,7 +68,7 @@ function retrieverTicker(sensorKey, latestDataQuery, fullDataQuery, dataCarbon, 
 
         setInterval( function(){
             getJSONLatestData(sensorKey, dataCarbon, dataMovement, dataTemperature, chartCarbon, chartMovement, chartTemperature, optionsCarbon, optionsMovement, optionsTemperature); 
-        }, 3000);  // change to once every 30 sec 
+        }, 30000);  // change to once every 30 sec 
         getJSONLatestData(sensorKey, dataCarbon, dataMovement, dataTemperature, chartCarbon, chartMovement, chartTemperature, optionsCarbon, optionsMovement, optionsTemperature); 
     }
 }
@@ -81,7 +93,7 @@ function getJSONFullData(sensorKey)
                                 // }
                                 mSensors[sensorKey].fullData = JSON.parse(response.data);
                                 printFullData(mSensors[sensorKey], sensorKey);
-                                //printData(sensorKey);
+                                printData(sensorKey);
                                 //console.log("Fulldata received for sensor: " +sensorKey);
                             }
                     },
@@ -106,11 +118,12 @@ function getJSONFullData(sensorKey)
                         {
                             if (response && response[0]) 
                                 {
-                                    if (sensorKey)
+
                                     mSensors[sensorKey].fullData = response;
                                     //console.log("Fulldata received for sensor: " +sensorKey);
-                                    printFullData(mSensors[sensorKey],sensorKey);
-                                    //printData(sensorKey);
+                                    console.log("Running print full data with false")
+                                    printFullData(mSensors[sensorKey],sensorKey, false);
+                                    printData(sensorKey);
                                     //drawChart();
                                 }
                             else {
@@ -137,7 +150,10 @@ function getJSONLatestData(sensorKey, dataCarbon, dataMovement, dataTemperature,
                                 mSensors[sensorKey].data = JSON.parse(response.data)[0];
                                 //console.log("latestData received for sensor: " +sensorKey);
                                 sendHomepageData(sensorKey, mSensors[sensorKey], dataCarbon, dataMovement, dataTemperature, chartCarbon, chartMovement, chartTemperature, optionsCarbon, optionsMovement, optionsTemperature);
-                                printData(sensorKey);
+                                if(fullDataRetrieved){
+                                    console.log("new data");
+                                    printFullData(mSensors[sensorKey],sensorKey, true);
+                                }
                             }
                     },
                 function (error) 
@@ -169,7 +185,10 @@ function getJSONLatestData(sensorKey, dataCarbon, dataMovement, dataTemperature,
                                     
  
                                     sendHomepageData(sensorKey, mSensors[sensorKey], dataCarbon, dataMovement, dataTemperature, chartCarbon, chartMovement, chartTemperature, optionsCarbon, optionsMovement, optionsTemperature);
-                                    printData(sensorKey);
+                                    if(fullDataRetrieved){
+                                        console.log("new data");
+                                        printFullData(mSensors[sensorKey],sensorKey, true);
+                                    }
 
                                 }
                             else {
@@ -205,19 +224,19 @@ function createHomepageVisuals() {
     ]);
 
     var optionsCarbon = {
-      width: 400, height: 120,
+      width: 350, height: 90,
       redFrom: 570, redTo: 650,
       yellowFrom:490, yellowTo: 570,
       minorTicks: 20, max: 650
     };
      var optionsMovement = {
-      width: 400, height: 120,
+      width: 350, height: 90,
       redFrom: 1200, redTo: 1500,
       yellowFrom:700, yellowTo: 1200,
       minorTicks: 20, max: 1500
     };
      var optionsTemperature = {
-      width: 400, height: 120,
+      width: 350, height: 90,
       redFrom: 29, redTo: 35,
       yellowFrom:25, yellowTo: 29,
       minorTicks: 20, max: 35
@@ -230,7 +249,6 @@ function createHomepageVisuals() {
     chartCarbon.draw(dataCarbon, optionsCarbon);
     chartMovement.draw(dataMovement, optionsMovement);
     chartTemperature.draw(dataTemperature, optionsTemperature);
-
     retrieverTicker(2, true, false, dataCarbon, dataMovement, dataTemperature, chartCarbon, chartMovement, chartTemperature, optionsCarbon, optionsMovement, optionsTemperature);
     retrieverTicker(3, true, false, dataCarbon, dataMovement, dataTemperature, chartCarbon, chartMovement, chartTemperature, optionsCarbon, optionsMovement, optionsTemperature);
     retrieverTicker(6, true, false, dataCarbon, dataMovement, dataTemperature, chartCarbon, chartMovement, chartTemperature, optionsCarbon, optionsMovement, optionsTemperature);
@@ -288,15 +306,16 @@ function printData(sensorKey)
             {
             // Display the info.
                 html = '<h1>Sensor Data</h1>'
-                  + '<br /><div id="time">Time  ' + mSensors[sensorKey].data.timestamp + '</div>'
-                  + '<div id="hum">Humidity ' + mSensors[sensorKey].data.h + ' % (rel)</div>'
-                  + '<div id="temp">Temperature ' + mSensors[sensorKey].data.t + ' celcius</div>'
-                  + '<div id="temp">Pressure ' + mSensors[sensorKey].data.p + ' Pa</div>'
-                  + '<div id="temp">Carbon Dioxide ' + mSensors[sensorKey].data.c + ' ppm</div>'
-                  + '<div id="temp">Lumination ' + mSensors[sensorKey].data.l + ' Lux</div>'
-                  + '<div id="temp">No movement ' + mSensors[sensorKey].data.np + ' </div>'
-                  + '<div id="temp">Movement ' + mSensors[sensorKey].data.pp + ' </div>'
-                  + '<img src="' + mSensors[sensorKey].image + '" />'
+                  +'<div class="container"><img id="background_img" src="' + mSensors[sensorKey].image + '" width="100%" height="auto" />'
+                  + '<div class="data_reads"><p id="hum">Humidity ' + mSensors[sensorKey].data.h + ' % (rel)</p>'
+                  + '<p id="temp">Temperature ' + mSensors[sensorKey].data.t + ' celcius</p>'
+                  + '<p id="temp">Pressure ' + mSensors[sensorKey].data.p + ' Pa</p>'
+                  + '<p id="temp">Carbon Dioxide ' + mSensors[sensorKey].data.c + ' ppm</p>'
+                  + '<p id="temp">Lumination ' + mSensors[sensorKey].data.l + ' Lux</p>'
+                  + '<p id="temp">No movement ' + mSensors[sensorKey].data.np + ' </p>'
+                  + '<p id="temp">Movement ' + mSensors[sensorKey].data.pp + ' </p></div></div>';
+
+                  //document.body["background-image"] =url(mSensors[sensorKey].image );
                 //console.log("print data successfull");
             } 
     else 
@@ -344,7 +363,7 @@ function printData(sensorKey)
 //     }, 26000);
 // }
 
-function printFullData(sensorwithdata,sensorKey) {
+function printFullData(sensorwithdata,sensorKey, update) {
     console.log("Full data recieved from sensor number: " +sensorKey +".");
 
     // 1. access mSensor.fullData and get it to the data format we need to add it to a chart
@@ -353,26 +372,96 @@ function printFullData(sensorwithdata,sensorKey) {
 
     stufftoKeeptrackof =sensorwithdata;
     // fullDataLength is the number of values to add in the chart
-    var fullDataLength = Object.keys(sensorwithdata.fullData).length;
+    
 
- 
+    if (sensorKey == 6) {
 
-    var fullDataTable = new google.visualization.DataTable();
-    fullDataTable.addColumn('number', 'index');
-    fullDataTable.addColumn('number', 'value');
-    fullDataTable.addRows(fullDataLength);
+    }
 
-    for (i = 0; i < fullDataLength; i++) {
-        // append this thing to an array
-        fullDataTable.setCell(i, 0, i); 
-        fullDataTable.setCell(i, 1, sensorwithdata.fullData[i].c); 
+    if(!update){
+        var currentDataIndex = Object.keys(sensorwithdata.fullData).length;
+        console.log("length of data "+ currentDataIndex);
+        fullDataTableCarbon = new google.visualization.DataTable();
+        fullDataTableCarbon.addColumn('string', 'index');
+        fullDataTableCarbon.addColumn('number', 'value');
+        fullDataTableCarbon.addRows(currentDataIndex);
+
+        fullDataTableMovement = new google.visualization.DataTable();
+        fullDataTableMovement.addColumn('string', 'index');
+        fullDataTableMovement.addColumn('number', 'value');
+        fullDataTableMovement.addRows(currentDataIndex);
+
+        fullDataTableTemp = new google.visualization.DataTable();
+        fullDataTableTemp.addColumn('string', 'index');
+        fullDataTableTemp.addColumn('number', 'value');
+        fullDataTableTemp.addRows(currentDataIndex);
+
+
+        for (i = 0; i < currentDataIndex; i++) {
+            // append this thing to an array
+            fullDataTableCarbon.setCell(i, 0, sensorwithdata.fullData[i].timestamp); 
+            fullDataTableCarbon.setCell(i, 1, sensorwithdata.fullData[i].c); 
+
+            if (sensorKey != 6) {
+                fullDataTableMovement.setCell(i, 0, sensorwithdata.fullData[i].timestamp); 
+                fullDataTableMovement.setCell(i, 1, sensorwithdata.fullData[i].pp);
+            }
+            
+            fullDataTableTemp.setCell(i, 0, sensorwithdata.fullData[i].timestamp); 
+            fullDataTableTemp.setCell(i, 1, sensorwithdata.fullData[i].t);
+        }
+        fullDataRetrieved = true;
+    } else {
+        console.log("length of data "+ currentDataIndex);
+        fullDataTableCarbon.addRows(1);
+        fullDataTableTemp.addRows(1);
+        fullDataTableMovement.addRows(1);
+        var numbOfRows = fullDataTableCarbon.getNumberOfRows();
+        console.log("NEWWWW DATAAAA");
+        console.log(sensorwithdata.data);
+        fullDataTableCarbon.setCell(numbOfRows, 0, sensorwithdata.data.timestamp); 
+        fullDataTableCarbon.setCell(numbOfRows, 1, sensorwithdata.data.c); 
+
+        fullDataTableTemp.setCell(numbOfRows, 0, sensorwithdata.data.timestamp); 
+        fullDataTableTemp.setCell(numbOfRows, 1, sensorwithdata.data.t);
+        
+        if (sensorKey != 6) {
+           fullDataTableMovement.setCell(numbOfRows, 0, sensorwithdata.data.timestamp); 
+           fullDataTableMovement.setCell(numbOfRows, 1, sensorwithdata.data.pp);
+        }
+         
     }
 
     // specify location
     //var table = new google.visualization.Table(document.getElementById("chartFullDataEntrance"));
-    var chartentr = new google.visualization.LineChart(document.getElementById('chartFullDataEntrance'));
+    if (sensorKey == 6) {
+        var chartentrCarbon = new google.visualization.LineChart(document.getElementById("entranceFullDataTableCarbon"));
+        var chartentrTemp = new google.visualization.LineChart(document.getElementById("entranceFullDataTableTemp"));
 
-    chartentr.draw(fullDataTable, {showRowNumber: true, width: '100%', height: '100%'});
+        chartentrCarbon.draw(fullDataTableCarbon); 
+        chartentrTemp.draw(fullDataTableTemp);  
+ 
+    }
+    if (sensorKey == 2) {
+        var chartupstrCarbon = new google.visualization.LineChart(document.getElementById("chartFullDataUpstairsCarbon"));
+        var chartupstrMovement = new google.visualization.LineChart(document.getElementById("chartFullDataUpstairsMovement"));
+        var chartupstrTemp = new google.visualization.LineChart(document.getElementById("chartFullDataUpstairsTemp"));
+
+        chartupstrCarbon.draw(fullDataTableCarbon); 
+        chartupstrMovement.draw(fullDataTableMovement); 
+        chartupstrTemp.draw(fullDataTableTemp);   
+    }
+    if (sensorKey == 3) {
+        var chartdownstrCarbon = new google.visualization.LineChart(document.getElementById("chartFullDataDownstairsCarbon"));
+        var chartdownstrMovement = new google.visualization.LineChart(document.getElementById("chartFullDataDownstairsMovement"));
+        var chartdownstrTemp = new google.visualization.LineChart(document.getElementById("chartFullDataDownstairsTemp"));
+
+        chartdownstrCarbon.draw(fullDataTableCarbon); 
+        chartdownstrMovement.draw(fullDataTableMovement); 
+        chartdownstrTemp.draw(fullDataTableTemp); 
+
+    }
+
     //console.log(fullDataTable);
 
     //console.log(Object.keys(mSensors.fullData[1]["c"] ));
@@ -380,7 +469,10 @@ function printFullData(sensorwithdata,sensorKey) {
     //var str = mSensors.fullData[1];  //.timestamp;
     //onsole.log(str.substring(12,str.length-5)); //mSensors[2].fullData);
     //console.log(str)
+}
 
+function updateFullData(sensorKey) {
+    
 }
 
 

@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
   <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
   <link rel="stylesheet" href="css/style.css">
+
   <!-- <script type="text/javascript" src="../../smoothie/smoothie.js"></script> -->
 
   <title>Getting some data from a json API</title>
@@ -105,30 +106,35 @@
     <ons-toolbar>
       <div class="center" id="toolbar-title"></div>
     </ons-toolbar>
+    <div class="tabLabel">
     <ons-tabbar position="auto">
-      <ons-tab label="Home" page="home.html" active>
-      </ons-tab>
-      <ons-tab label="Entrance" page="entrance.html">
-      </ons-tab>
-      <ons-tab label="Upstairs" page="upstairs.html">
-      </ons-tab>
-      <ons-tab label="Downstairs" page="downstairs.html">
-      </ons-tab>
+        <ons-tab page="home.html" active>
+          <span style="font-size: 8px">Home</span>
+        </ons-tab>
+        <ons-tab  page="entrance.html">
+          <span style="font-size: 8px">Entrance</span>
+        </ons-tab>
+        <ons-tab  page="upstairs.html">
+          <span style="font-size: 8px">Upstairs</span>
+        </ons-tab>
+        <ons-tab  page="downstairs.html">
+          <span style="font-size: 8px">Downstairs</span>
+        </ons-tab>
     </ons-tabbar>
+    </div>
   </ons-page>
 
   <ons-template id="home.html">
     <ons-page id="home-page">
-
-      <div id="printInHome"></div>
-      <p> Carbon </p>
-      <div id="chartHomeCarbon" style="width: 400px; height: 120px;"></div>
-      <p> Movement </p>
-      <div id="chartHomeMovement" style="width: 400px; height: 120px;"></div>
-      <p> Temperature </p>
-      <div id="chartHomeTemperature" style="width: 400px; height: 120px;"></div>
-
-
+      <div class="my.content">
+        <div id="printInHome"></div>
+        <p class="gaugeTitle"> Carbon </p>
+        <div class="gauge" id="chartHomeCarbon"></div>
+        <p class="gaugeTitle"> Movement </p>
+        <div class="gauge" id="chartHomeMovement"></div>
+        <p class="gaugeTitle"> Temperature </p>
+        <div class="gauge" id="chartHomeTemperature"></div>
+      </div>
     </ons-page>
   </ons-template>
 
@@ -136,26 +142,38 @@
     <ons-page id="entrance-page">
 
       <!-- <canvas id="chartEntrance, conference room, upstairs" width="400" height="100"></canvas>  -->
-      <div id="printForEntrance, conference room, upstairs"></div>
-      <div id="chartFullDataEntrance"><p>hej</p></div>
+       <div class="my.content">
+
+        <div id="printForEntrance, conference room, upstairs"></div>
+        <div id="entranceFullDataTableCarbon"></div>
+        <div id="entranceFullDataTableTemp"></div>
+
+      </div>
     </ons-page>
   </ons-template>
 
   <ons-template id="upstairs.html">
     <ons-page id="upstairs-page">
-
+       <div class="my.content">
       <!-- <canvas id="chartForConference room, upstairs" width="400" height="100"></canvas>  -->
-      <div id="printForConference room, upstairs"></div>
-      <div id="chartFullDataUpstairs"></div>
+        <div id="printForConference room, upstairs"></div>
+        <div id="chartFullDataUpstairsCarbon"></div>
+        <div id="chartFullDataUpstairsMovement"></div>
+        <div id="chartFullDataUpstairsTemp"></div>
+        </div>
     </ons-page>
   </ons-template>
 
   <ons-template id="downstairs.html">
     <ons-page id="downstairs-page">
-
+       <div class="my.content">
       <!-- <canvas id="chartConference room, downstairs" width="400" height="100"></canvas>  -->
-      <div id="printForConference room, downstairs"></div>
-      <div id="chartFullDataDownstairs"></div>
+        <div id="printForConference room, downstairs"></div>
+        <div id="chartFullDataDownstairsCarbon"></div>
+        <div id="chartFullDataDownstairsMovement"></div>
+        <div id="chartFullDataDownstairsTemp"></div>
+      </div>
+
     </ons-page>
   </ons-template>
 
