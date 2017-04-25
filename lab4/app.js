@@ -137,7 +137,7 @@ app.setupConnection = function() {
 	app.client.onConnectionLost = app.onConnectionLost;
 	app.client.onMessageArrived = app.onMessageArrived;
 	console.log(app.client);
-	if(willMsg != " "){
+	if(willMsg == ""){
 		willMsg = app.userName + " disconnected!";
 		
 	}
