@@ -137,8 +137,11 @@ app.setupConnection = function() {
 	app.client.onConnectionLost = app.onConnectionLost;
 	app.client.onMessageArrived = app.onMessageArrived;
 	console.log(app.client);
-	if(willMsg != ""){
-		console.log(willMsg);
+	if(willMsg != " "){
+		willMsg = app.userName + " disconnected!";
+		
+	}
+	console.log(willMsg);
 		var finalWill = new Paho.MQTT.Message(JSON.stringify({from: app.userName, message: willMsg}));
 		finalWill.destinationName = app.pubTopic;
 		var options = {
@@ -147,17 +150,7 @@ app.setupConnection = function() {
 		    onFailure: app.onConnectFailure,
 		    willMessage: finalWill
 		}
-				app.client.connect(options);
-		
-	}else{
-		var options = {
-		  	useSSL: false,
-		    onSuccess: app.onConnect,
-		    onFailure: app.onConnectFailure
-		}
-		app.client.connect(options);
-	}
-	
+	app.client.connect(options);
 }
 
 app.retainPublish = function(message) {
@@ -202,8 +195,8 @@ app.onConnect = function(context) {
 	app.subscribe();
 	app.status("Connected!");
 	app.connected = true;
-	var retainMsg = JSON.stringify({from: app.userName, message: app.userName + " is conencted"});;
-	app.retainPublish(retainMsg);
+	//var retainMsg = JSON.stringify({from: app.userName, message: app.userName + " is conencted"});;
+	//app.retainPublish(retainMsg);
 }
 
 app.onConnectFailure = function(e){

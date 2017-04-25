@@ -1,0 +1,152 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="Content-Security-Policy" content="default-src * data:; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+  <script src="components/loader.js"></script>
+  <script src="lib/onsenui/js/onsenui.min.js"></script>
+
+  <link rel="stylesheet" href="components/loader.css">
+  <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
+  <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
+  <link rel="stylesheet" href="css/style.css">
+  <!-- <script type="text/javascript" src="../../smoothie/smoothie.js"></script> -->
+
+  <title>Getting some data from a json API</title>
+  <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.css" />
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.js"></script>
+  <script src="cordova.js"></script>
+
+  <script>
+    // Redirect console.log to Evothings Workbench, so you can see data under 'Tools'
+    if (window.hyper && window.hyper.log) { hyper.log = console.log }
+  </script>
+
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script src="app.js"></script>
+
+  <script>
+    var counterHome = 0;
+    var counterEntrance = 0;  
+    var counterUpstairs = 0;
+    var counterDownstairs = 0;
+
+    ons.ready(function() {
+      console.log("Onsen UI is ready!");
+    });
+
+    document.addEventListener('show', function(event) {
+      var page = event.target;
+      var titleElement = document.querySelector('#toolbar-title');
+
+      if (page.matches('#home-page')) {
+        titleElement.innerHTML = 'My app - Home';
+        //console.log("home-page");
+        if (counterHome >= 1) {
+          // dont call retrieveTicker
+        }
+        else {
+          retrieverTicker(2, true, false);
+          retrieverTicker(3, true, false);
+          retrieverTicker(6, true, false);
+          google.charts.load('current', {'packages':['gauge']});
+          google.charts.setOnLoadCallback(createHomepageVisuals);
+          createHomepageVisuals();
+
+        }
+        counterHome = counterHome + 1;
+      } 
+
+      else if (page.matches('#entrance-page')) {
+        titleElement.innerHTML = 'My app - Entrance';
+        // If it's the first time the tab is being pressed, get fullData and start the ticker
+        if (counterEntrance == 0) {
+          // call latestData and fullData
+          retrieverTicker(6, null, true);
+        }
+        counterEntrance = counterEntrance + 1;
+      } 
+      else if (page.matches('#upstairs-page')) {
+        titleElement.innerHTML = 'My app - Upstairs';
+        // If it's the first time the tab is being pressed, get fullData and start the ticker
+        if (counterUpstairs == 0) {
+          // call latestData and fullData
+          retrieverTicker(2, null, true);
+        }
+        counterUpstairs = counterUpstairs + 1;
+      } 
+      else if (page.matches('#downstairs-page')) {
+        titleElement.innerHTML = 'My app - Downstairs';
+        // If it's the first time the tab is being pressed, get fullData and start the ticker
+        if (counterDownstairs == 0) {
+          // call latestData and fullData
+          retrieverTicker(3, null, true);
+        }
+        counterDownstairs = counterDownstairs + 1;
+      } 
+      
+    });
+  </script>
+   
+
+</head>
+<body>
+  <ons-page>
+    <ons-toolbar>
+      <div class="center" id="toolbar-title"></div>
+    </ons-toolbar>
+    <ons-tabbar position="auto">
+      <ons-tab label="Home" page="home.html" active>
+      </ons-tab>
+      <ons-tab label="Entrance" page="entrance.html">
+      </ons-tab>
+      <ons-tab label="Upstairs" page="upstairs.html">
+      </ons-tab>
+      <ons-tab label="Downstairs" page="downstairs.html">
+      </ons-tab>
+    </ons-tabbar>
+  </ons-page>
+
+  <ons-template id="home.html">
+    <ons-page id="home-page">
+
+      <div id="printInHome"></div>
+      <p> Carbon </p>
+      <div id="chartHomeCarbon" style="width: 400px; height: 120px;"></div>
+      <p> Movement </p>
+      <div id="chartHomeMovement" style="width: 400px; height: 120px;"></div>
+      <p> Temperature </p>
+      <div id="chartHomeTemperature" style="width: 400px; height: 120px;"></div>
+
+
+    </ons-page>
+  </ons-template>
+
+  <ons-template id="entrance.html">
+    <ons-page id="entrance-page">
+
+      <!-- <canvas id="chartEntrance, conference room, upstairs" width="400" height="100"></canvas>  -->
+      <div id="printForEntrance, conference room, upstairs"></div>
+    </ons-page>
+  </ons-template>
+
+  <ons-template id="upstairs.html">
+    <ons-page id="upstairs-page">
+
+      <!-- <canvas id="chartForConference room, upstairs" width="400" height="100"></canvas>  -->
+      <div id="printForConference room, upstairs"></div>
+    </ons-page>
+  </ons-template>
+
+  <ons-template id="downstairs.html">
+    <ons-page id="downstairs-page">
+
+      <!-- <canvas id="chartConference room, downstairs" width="400" height="100"></canvas>  -->
+      <div id="printForConference room, downstairs"></div>
+    </ons-page>
+  </ons-template>
+
+</body>
+</html>

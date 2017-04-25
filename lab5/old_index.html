@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no,
+        shrink-to-fit=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+
+    <title>Getting some data from a json API</title>
+    <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.css" />
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.js"></script>
+    <script type="text/javascript" src="smoothie/smoothie.js"></script>
+
+
+    <!-- This script, cordova.js,  is built into Evothings Viewer (i.e. you won't need to add this file to your project) The idea is to pick up a http resource, even if you're using https, which would normally create a cross-protocol violation. The HTTP plug-in from Apache Cordova allows this to be carried out, see especially this post: https://evothings.com/evothings-secured-now-serving-over-https/ -->
+    
+    <script src="cordova.js"></script>
+    
+    <script>
+    // Redirect console.log to Evothings Workbench, so you can see data under 'Tools'
+    if (window.hyper && window.hyper.log) { hyper.log = console.log }
+    </script>
+    
+    <script src="app.js"></script>
+    
+</head>
+<body>
+
+<div data-role="tabs" id="tabs">
+    <div data-role="navbar">
+        <ul>
+            <li><a href="#home" data-ajax="true">home</a></li>
+            <li><a href="#entrance" data-ajax="true">entrance</a></li>
+            <li><a href="#confRoomUp" data-ajax="true">Meet up</a></li>
+            <li><a href="#confRoomDown" data-ajax="true">Meet down</a></li>
+        </ul>
+    </div>
+    <div id="home">
+        Very slow start up after button "Retrieve..." has been pushed..! BE PATIENT :) Probably this can be fixed somehow...?
+        <button onclick="history.back()">Exit</button><br />
+        <button onClick="retrieverTicker(2);">Retrieve some sensor data</button> 
+
+        <canvas id="chart" width="400" height="100"></canvas> 
+        <div id="printInHome"></div>
+    </div>
+    <div id="entrance" class="ui-body-d ui-content">
+<!--         <button onClick="retrieverTicker(6);">Retrieve some sensor data</button> 
+ -->        <canvas id="chart" width="400" height="100"></canvas> 
+        <div id="printForEntrance, conference room, upstairs"></div>
+    </div>
+    <div id="confRoomUp" class="ui-body-d ui-content">
+        <canvas id="chart" width="400" height="100"></canvas> 
+        <div id="printForConference room, upstairs"></div>
+    </div>
+    <div id="confRoomDown" class="ui-body-d ui-content">
+        <canvas id="chart" width="400" height="100"></canvas> 
+        <div id="printForConference room, downstairs"></div>
+    </div>
+</div>
+
+
+</body>
+</html>
